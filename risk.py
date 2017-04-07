@@ -25,6 +25,8 @@ class Risk:
         
         self.fieldtype=pd.read_csv(r'/data/risk/field_type.csv',sep=',')
 
+
+
     def handle_data_nan(self):
         master_train=pd.read_csv(self.master_train_file,encoding='GBK',sep=',')
         for x,y in zip(self.fieldtype.field_name,self.fieldtype.field_type):
