@@ -70,6 +70,9 @@ class Risk:
         X_train = master_train[ [x for x in master_train.columns if x!='target' ]   ] 
         Y_train = master_train[ ['target' ]   ]	
         	
+
+
+
 	
 if __name__ == '__main__':
     risk = Risk()
