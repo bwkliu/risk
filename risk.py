@@ -28,21 +28,21 @@ class Risk:
     def handle_data_nan(self):
         master_train=pd.read_csv(self.master_train_file,encoding='GBK',sep=',')
         for x,y in zip(self.fieldtype.field_name,self.fieldtype.field_type):
-	        nan_rate = master_train[x].count()/float(master_train[x].size)
-	        if nan_rate < 0.7:
-		        master_train = master_train.drop([x],axis=1)
-            	elif y == 'Categorical':
-		        if master_train[x].dtypes == np.int64:
-		            master_train[x][ pd.isnull(master_train[x]) ] = 99999
-		        elif master_train[x].dtypes == np.float64:
-		            master_train[x][ pd.isnull(master_train[x]) ] = 99999 
-		        elif master_train[x].dtypes == np.object:
-		            master_train[x][ pd.isnull(master_train[x]) ] = '99999'
-		elif y == 'Numerical':
-			if master_train[x].dtypes == np.int64:
-			    master_train[x][ pd.isnull(master_train[x]) ] = master_train[x].mean()
-			elif master_train[x].dtypes == np.float64:
-			    master_train[x][ pd.isnull(master_train[x]) ] = master_train[x].mean()
+            nan_rate = master_train[x].count()/float(master_train[x].size)
+            if nan_rate < 0.7:
+                master_train = master_train.drop([x],axis=1)
+            elif y == 'Categorical':
+                if master_train[x].dtypes == np.int64:
+                    master_train[x][ pd.isnull(master_train[x]) ] = 99999
+            elif master_train[x].dtypes == np.float64:
+                master_train[x][ pd.isnull(master_train[x]) ] = 99999 
+            elif master_train[x].dtypes == np.object:
+                master_train[x][ pd.isnull(master_train[x]) ] = '99999'
+            elif y == 'Numerical':
+                if master_train[x].dtypes == np.int64:
+                    master_train[x][ pd.isnull(master_train[x]) ] = master_train[x].mean()
+                elif master_train[x].dtypes == np.float64:
+                    master_train[x][ pd.isnull(master_train[x]) ] = master_train[x].mean()
        
         list_info_time = pd.to_datetime(master_train.ListingInfo)
         master_train['year'] = list_info_time.apply(lambda x : x.year)
@@ -60,20 +60,16 @@ class Risk:
     def handle_data_pre(self,master_train):
         le = LabelEncoder()
         for x in master_train.columns:
-            if fieldtype[fieldtype.field_name == x].field_type == 'Categorical':
+            if self.fieldtype[self.fieldtype.field_name == x].field_type == 'Categorical':
                 le.fit(master_train[x].values)
                 master_train[x] = le.transform(master_train[x])
 
          
  
-    def train(master_train):
+    def train(self,master_train):
         X_train = master_train[ [x for x in master_train.columns if x!='target' ]   ] 
-        Y_train = master_train[ ['target' ]   ]	
-        	
+        Y_train = master_train[ ['target' ]   ]    
 
-
-
-	
 if __name__ == '__main__':
     risk = Risk()
     risk.handle_data()
