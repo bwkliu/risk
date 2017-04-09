@@ -11,8 +11,8 @@ from xgboost.core import DMatrix
 
 class Risk:
     def __init__(self):
-        self.train_filePath='/data/risk/PPD-First-Round-Data-Updated/PPD-First-Round-Data-Update/Training Set/'
-        self.test_filePath='/data/risk/PPD-First-Round-Data-Updated/PPD-First-Round-Data-Update/Test Set/'
+        self.train_filePath='/data/risk/PPD-First-Round-Data-Updated/Training Set/'
+        self.test_filePath='/data/risk/PPD-First-Round-Data-Updated/Test Set/'
         
         self.master_train_file=self.train_filePath+'PPD_Training_Master_GBK_3_1_Training_Set.csv'
         self.LogInfo_train_file=self.train_filePath+'PPD_LogInfo_3_1_Training_Set.csv'
