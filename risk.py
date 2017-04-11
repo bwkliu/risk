@@ -141,7 +141,7 @@ class Risk:
             #Print model report:
             print "\nModel Report"
             print "Accuracy : %.4g" % metrics.accuracy_score(test_set[target].values, dtrain_predictions)
-            print "AUC Score (Train): %f" % metrics.roc_auc_score(test_set[target], dtrain_predprob)
+            print "AUC Score (Train): %f" % metrics.roc_auc_score(test_set[target].values, dtrain_predprob)
             
             feat_imp = pd.Series(alg.booster().get_fscore()).sort_values(ascending=False)
             feat_imp.plot(kind='bar', title='Feature Importances')
@@ -167,6 +167,10 @@ if __name__ == '__main__':
     master_train_test.UserInfo_7 = master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
     master_train_test.UserInfo_8 = master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
     master_train_test.UserInfo_9 = master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
+    
+    master_train_test = risk.handle_data_cat_encode(master_train_test)
+    
+    master_train_test = master_train_test.drop(['Idx'],axis=1)
 
     #master_train = risk.handle_data_pre(master_train)
     risk.xgb_train(master_train_test)
