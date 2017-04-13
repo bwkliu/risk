@@ -1,0 +1,1457 @@
+ 3/1: $run -d test.py
+ 3/2: %run -d test.py
+ 3/3: ls
+ 3/4: !ls
+ 3/5: %run -d risk.py
+ 4/1: %run -d risk.py
+ 5/1: %run -d risk.py
+ 5/2: master_train = pd.read_csv('master_nan.csv',encoding='GBK')
+ 5/3: master_train.columns
+ 5/4: fieldtype=pd.read_csv(r'/data/risk/field_type.csv',sep=',')
+ 5/5: fieldtype.field_name
+ 5/6: master_train.count()
+ 5/7:
+for x in fieldtype.field_name:
+    print master_train[x].values_count()
+ 5/8:
+for x in fieldtype.field_name:
+    print pd.value_counts(master_train[x].values)
+ 5/9: of = open(r'/data/risk/count.txt','w')
+5/10:
+for x in fieldtype.field_name:
+    print >> of, '*********'+x+'*************'
+    print >> of, pd.value_counts(master_train[x].values)
+5/11: !vi count.txt
+ 6/1: import pandas as pd
+ 6/2: import numpy as np
+ 6/3: master_train = pd.read_csv('master_nan.csv',encoding='gbk')
+ 6/4: master_train.values_count()
+ 6/5: pd.value_counts(master_train)
+ 6/6: master_train.count()
+ 6/7: train_filePath='/data/risk/PPD-First-Round-Data-Updated/PPD-First-Round-Data-Update/Training Set/'
+ 6/8: master_test_file=self.test_filePath+'PPD_Master_GBK_2_Test_Set.csv'
+ 6/9: master_test_file=test_filePath+'PPD_Master_GBK_2_Test_Set.csv'
+6/10: master_train_file=self.train_filePath+'PPD_Training_Master_GBK_3_1_Training_Set.csv'
+6/11: master_train_file=train_filePath+'PPD_Training_Master_GBK_3_1_Training_Set.csv'
+6/12: master_train = pd.read_csv(master_train_file,encoding='gbk')
+6/13: master_train.count()
+6/14: master_train.UserInfo_1.count()
+6/15: master_train.apply(lambda x:x.count(),axis=1)
+6/16: master_train.apply(lambda x:x.count(),axis=0)
+6/17: master_train.apply(lambda x:x.count() < 10000 ,axis=0)
+6/18: master_train.apply(lambda x: x if  x.count() < 10000 ,axis=0)
+6/19: master_train.apply(lambda x: x.count() ,axis=0)
+6/20: master_train.apply(lambda x: x.values_count() ,axis=0)
+6/21: master_train.apply(lambda x: x.count() ,axis=0)
+6/22: aamaster_train.apply(lambda x: x.count() ,axis=0)
+6/23: aa=master_train.apply(lambda x: x.count() ,axis=0)
+6/24: aa.dtype
+6/25: type(aa)
+6/26: aa[aa<1000]
+6/27: import  matplotlib.pyplot as plt
+6/28: plt.hist?
+6/29: plt.hist(aa)
+6/30: matplotlib.__version__
+6/31: matplotlib.__Version__
+6/32: matplotlib.__VERSION__
+6/33: aa.plot?
+6/34: aa.plot(kind='bar',aa)
+6/35: aa.plot(kind='bar')
+6/36: plt.show()
+6/37: aa
+6/38: aa[aa<30000]
+6/39: aa[aa<30000].plot(kind='bar')
+6/40: plt.show()
+6/41: master_train.UserInfo_12
+6/42: master_train.UserInfo_12.value_counts?
+6/43: master_train.UserInfo_12.value_counts(dropna=False)
+6/44: fieldtype=pd.read_csv(r'/data/risk/field_type.csv',sep=',')
+6/45: fieldtype[fieldtype.field_name=='UserInfo_12']
+6/46: del master_train.WeblogInfo_3
+6/47: master_train.drop?
+6/48: master_train.drop(master_train.WeblogInfo_3)
+6/49: master_train.drop(master_train.WeblogInfo_3,axis=1)
+6/50: master_train.drop?
+6/51: master_train.drop(['WeblogInfo_3'])
+6/52: master_train.drop(['WeblogInfo_3'],axis=1)
+6/53: master_train = master_train.drop(['WeblogInfo_3'],axis=1)
+6/54: aa=master_train.apply(lambda x: x.count() ,axis=0)
+6/55: aa[aa<30000]
+6/56: master_train = master_train.drop(['WeblogInfo_1'],axis=1)
+6/57: aa[aa<30000]
+6/58: aa[aa<30000]
+6/59: aa=master_train.apply(lambda x: x.count() ,axis=0)
+6/60: aa[aa<30000]
+6/61: aa=master_train.apply(lambda x: x.count() ,axis=0)
+6/62: aa
+6/63: master_train.UserInfo_22.value_counts(dropna=False)
+6/64: master_train.UserInfo_22.value_counts()
+6/65: master_train.UserInfo_11.value_counts()
+6/66: master_train.UserInfo_11.value_counts(dropna=False)
+6/67: fieldtype[fieldtype.field_name=='UserInfo_11']
+6/68: aa
+6/69: aa[aa<30000]
+6/70: master_train.UserInfo_12.value_counts(dropna=False)
+6/71: master_train.UserInfo_13.value_counts(dropna=False)
+6/72: 21950.0/30000
+6/73: master_train.UserInfo_12.value_counts(dropna=False)
+6/74: master_train.UserInfo_12.count()
+6/75: master_train.UserInfo_12.count?
+6/76: master_train.UserInfo_12.size()
+6/77: master_train.UserInfo_12.size
+6/78: master_train.UserInfo_12.count()
+6/79: master_train.UserInfo_12.count()/master_train.UserInfo_12.size
+6/80: master_train.UserInfo_12.count()/float(master_train.UserInfo_12.size)
+6/81: fieldtype
+6/82: master_train.ThirdParty_Info_Period7_10
+6/83: aa[aa<30000]
+6/84: fieldtype
+6/85: master_train.WeblogInfo_33
+6/86: master_train.WeblogInfo_33.value_counts(dropna=False)
+6/87: master_train.WeblogInfo_33.describe()
+6/88: master_train.WeblogInfo_33.mean()
+ 7/1: %run -d risk.py
+6/89: master_train.target
+6/90: master_train.columns
+6/91: master_train[[-2]]
+6/92: master_train[['target']]
+6/93: master_train[ [x for x in master_train.columns]  ]
+6/94: master_train[ [x for x in master_train.columns] if x!= 'target'  ]
+6/95: master_train[ [x for x in master_train.columns if x!='target' ]   ]
+6/96: master_train = pd.read_csv('master_nan.csv',encoding='gbk')
+6/97: X_train = master_train[ [x for x in master_train.columns] if x!= 'target'  ]
+6/98: X_train = master_train[ [x for x in master_train.columns if x!= 'target']  ]
+6/99: Y_train = master_train[ ['target']  ]
+6/100: X_train.shape
+6/101: Y_train.shape
+6/102: import sklearn
+6/103: from sklearn.linear_model import LogisticRegression
+6/104: LogisticRegression?
+6/105: fieldtype.field_type
+6/106:  fieldtype[ fieldtype.field_type == 'Categorical' ]
+6/107:  fieldtype[ fieldtype.field_type == 'Categorical' ].field_name
+6/108: master_train[ fieldtype[ fieldtype.field_type == 'Categorical' ].field_name ]
+6/109: master_train[ fieldtype[ fieldtype.field_type == 'Categorical' ].field_name ]
+6/110: pd.get_dummies?
+6/111: X_cat_train = pd.get_dummies(master_train[ fieldtype[ fieldtype.field_type == 'Categorical' ].field_name ])
+6/112: X_cat_train
+6/113: X_cat_train.shape
+ 8/1: import xgboost
+ 9/1: import xgboost
+10/1: import xgboost
+11/1: import xgboost
+12/1: import xgboost
+14/1: master_train = pd.read_csv('master_nan.csv',encoding='gbk')
+14/2: import pandas as pd
+14/3: import numpy as np
+14/4: master_train = pd.read_csv('master_nan.csv',encoding='gbk')
+14/5: X_train = master_train[ [x for x in master_train.columns if x!= 'target']  ]
+14/6: Y_train = master_train[ ['target']  ]
+14/7: import xgboost
+14/8: xgboost.XGBClassifier?
+14/9: import xgboost as xgb
+14/10: xgtrain = xgb.DMatrix(X_train.values, label=Y_train.values)
+14/11: master_train.ListingInfo
+14/12: pd.to_datetime(master_train.ListingInfo)
+14/13: aa=pd.to_datetime(master_train.ListingInfo)
+14/14: aa
+14/15: aa.dtypes
+14/16: aa.get_value
+14/17: aa=pd.to_datetime(master_train.ListingInfo)
+14/18: aa
+14/19: pd.datetime(aa)
+14/20: aa= pd.datetime(master_train.ListingInfo)
+14/21: aa=pd.to_datetime(master_train.ListingInfo)
+14/22: pd.datetime.day(aa)
+14/23: pd.datetime.day?
+14/24: pd.Timestamp(aa)
+14/25: bb = pd.Timestamp(aa)
+14/26: bb
+14/27: bb = pd.Timestamp(aa)
+14/28: bb
+14/29: bb = pd.Timestamp(aa)
+14/30: master_train.head()
+14/31: bb = pd.Timestamp(aa)
+14/32: bb = pd.Timestamp(aa.values)
+14/33: aa[0]
+14/34: aa[1]
+14/35: bb = aa[0]
+14/36: bb.day
+14/37: aa
+14/38: aa.apply(lambda x : x.day())
+14/39: aa.apply(lambda x : type(x))
+14/40: aa.apply(lambda x : x.day)
+14/41: aa.apply(lambda x : x.year)
+14/42: aa.apply(lambda x : x.month)
+14/43: master_train['year'] = aa.apply(lambda x : x.year)
+14/44: master_train['year'] = aa.apply(lambda x : x.month)
+14/45: master_train['year'] = aa.apply(lambda x : x.year)
+14/46: master_train['month'] = aa.apply(lambda x : x.month)
+14/47: master_train['day'] = aa.apply(lambda x : x.day)
+14/48: master_train.columns
+14/49: master_train.drop?
+14/50: master_train.drop(['ListingInfo'])
+14/51: master_train.drop(['ListingInfo'],axis=1)
+14/52: master_train['day'] = master_train['day'].astype('category')
+14/53: master_train['month'] = master_train['month'].astype('category')
+14/54: master_train['year'] = master_train['year'].astype('category')
+14/55: master_train.dtypes
+14/56: fieldtype=pd.read_csv(r'/data/risk/field_type.csv',sep=',')
+14/57: fieldtype.field_type
+15/1: %run -d risk.py
+15/2: %run -d risk.py
+15/3: :q
+16/1: %run -d risk.py
+17/1: %run -d risk.py
+18/1: %run -d risk.py
+19/1: %run -d risk.py
+20/1: %run -d risk.py
+21/1: %run -d risk.py
+22/1: %run -d risk.py
+23/1: import pandas as pd
+24/1: %run -d risk.py
+24/2: !ls master_nan.csv
+24/3: !ll master_nan.csv
+24/4: !ls  master_nan.csv
+24/5: !cat  master_nan.csv
+24/6: !ls -l   master_nan.csv
+24/7: import pandas as pd
+24/8: master_train = pd.read_csv('master_nan.csv',encoding='GBK')
+24/9: master_train.dtypes
+24/10: master_train.columns
+24/11: import risk
+24/12: riskClass = risk.Risk()
+24/13: master_train = riskClass.handle_data()
+24/14: master_train.dtypes_
+24/15: master_train.dtypes
+24/16: import xgboost as xgb
+24/17: X_train = master_train[ [x for x in master_train.columns if x!= 'target']  ]
+24/18: Y_train = master_train[ ['target']  ]
+24/19: xgtrain = xgb.DMatrix(X_train.values, label=Y_train.values)
+24/20: master_train
+24/21: master_train = master_train.drop(['ListingInfo'],axis=1)
+24/22: X_train = master_train[ [x for x in master_train.columns if x!= 'target']  ]
+24/23: Y_train = master_train[ ['target']  ]
+24/24: xgtrain = xgb.DMatrix(X_train.values, label=Y_train.values)
+24/25: from sklearn.preprocessing import LabelEncoder
+24/26: le = LabelEncoder()
+24/27: master_train.dtypes
+24/28: master_train.UserInfo_1
+24/29: master_train.UserInfo_2
+24/30: le.fit(master_train.UserInfo_2.values)
+24/31: le.transform(master_train.UserInfo_2)
+24/32: fieldtype=pd.read_csv(r'/data/risk/field_type.csv',sep=',')
+24/33:
+for x,y in zip(self.fieldtype.field_name,self.fieldtype.field_type):
+    if y == 'Categorical':
+        le.fit(master_train[x])
+        master_train[x] = le.transform(master_train[x])
+24/34:
+for x,y in zip(fieldtype.field_name,fieldtype.field_type):
+    if y == 'Categorical':
+        le.fit(master_train[x])
+        master_train[x] = le.transform(master_train[x])
+24/35:
+for x,y in zip(fieldtype.field_name,fieldtype.field_type):
+    if y == 'Categorical':
+        le.fit(master_train[x])
+        master_train[x] = le.transform(master_train[x])
+24/36: master_train.count()
+25/1: import risk
+25/2: aa= risk.Risk()
+25/3: master_train = aa.handle_data()
+25/4: master_train.count()
+25/5: from sklearn.preprocessing import LabelEncoder
+25/6: fieldtype=pd.read_csv(r'/data/risk/field_type.csv',sep=',')
+25/7: import pandas as pd
+25/8: fieldtype=pd.read_csv(r'/data/risk/field_type.csv',sep=',')
+25/9:
+for x,y in zip(fieldtype.field_name,fieldtype.field_type):
+    if y == 'Categorical':
+        le.fit(master_train[x])
+        master_train[x] = le.transform(master_train[x])
+25/10: le = LabelEncoder()
+25/11:
+for x,y in zip(fieldtype.field_name,fieldtype.field_type):
+    if y == 'Categorical':
+        le.fit(master_train[x])
+        master_train[x] = le.transform(master_train[x])
+25/12: master_train.UserInfo_11
+25/13: master_train.count()
+25/14: master_train.UserInfo_2
+25/15: X_train = master_train[ [x for x in master_train.columns if x!= 'target']  ]
+25/16: Y_train = master_train[ ['target']  ]
+25/17: import xgboost as xgb
+25/18: xgtrain = xgb.DMatrix(X_train.values, label=Y_train.values)
+25/19:
+for x,y in zip(fieldtype.field_name,fieldtype.field_type):
+    if y == 'Categorical':
+        le.fit(master_train[x])
+        master_train[x] = le.transform(master_train[x])
+25/20: master_train.dtypes
+25/21: master_train.dtypes
+25/22: master_train.UserInfo_1.dtype
+25/23: master_train.UserInfo_1.dtype == 'int64'
+25/24:
+for x,y in zip(master_train.columns,master_train.dtypes):
+    if y == 'Categorical':
+        le.fit(master_train[x])
+        master_train[x] = le.transform(master_train[x])
+25/25: fieldtype[fieldtype.field_name=='SocialNetwork_1']
+25/26: fieldtype[fieldtype.field_name=='SocialNetwork_1'].field_type
+25/27: fieldtype[fieldtype.field_name=='SocialNetwork_1'].field_type.values
+25/28: fieldtype[fieldtype.field_name=='SocialNetwork_1'].field_type.value
+25/29: fieldtype[fieldtype.field_name=='SocialNetwork_1'].field_type.values
+25/30: fieldtype[fieldtype.field_name=='SocialNetwork_1'].field_type.values[0]
+25/31: fieldtype[fieldtype.field_name=='SocialNetwork_1'].field_type
+25/32: fieldtype[fieldtype.field_name=='SocialNetwork_1'].field_type == 'Categorical'
+26/1: import risk
+26/2: riskClass = risk.Risk()
+26/3: master_train = riskClass.handle_data_nan()
+26/4: master_train
+26/5: master_train.count()
+26/6: master_train_pre = riskClass.handle_data_pre(master_train)
+27/1: import risk
+27/2: riskClass = risk.Risk()
+27/3: master_train = riskClass.handle_data_nan()
+27/4: master_train_pre = riskClass.handle_data_pre(master_train)
+27/5: fieldtype=pd.read_csv(r'/data/risk/field_type.csv',sep=',')
+27/6: import pandas
+27/7: import pandas as pd
+27/8: fieldtype=pd.read_csv(r'/data/risk/field_type.csv',sep=',')
+27/9:
+for x in master_train.columns:
+    if fieldtype[fieldtype.field_name == x].field_type == 'Categorical':
+        print x
+27/10: master_train.columns
+27/11: fieldtype[fieldtype.field_name == 'UserInfo_3'].field_type
+27/12:
+for x in master_train.columns:
+    print x,type(x)
+27/13:
+for x in master_train.columns:
+    print x.value,type(x)
+27/14:
+for x in master_train.columns:
+    print x,type(x)
+27/15:
+for x in master_train.columns:
+    print fieldtype[fieldtype.field_name == x].field_type
+27/16:
+for x in master_train.columns:
+    print type(fieldtype[fieldtype.field_name == x].field_type)
+27/17:
+for x in master_train.columns:
+    print fieldtype[fieldtype.field_name == x]
+27/18:
+for x in master_train.columns:
+    print type(fieldtype[fieldtype.field_name == x])
+27/19:
+for x in master_train.columns:
+    print type(fieldtype[fieldtype.field_name == x].field_type)
+27/20:
+for x in master_train.columns:
+    print type(fieldtype[fieldtype.field_name == x].field_type.value)
+27/21:
+for x in master_train.columns:
+    print type(fieldtype[fieldtype.field_name == x].field_type.values)
+27/22: fieldtype[fieldtype.field_name == 'ThirdParty_Info_Period4_3']
+27/23: fieldtype[fieldtype.field_name == 'ThirdParty_Info_Period4_3'].field_type
+27/24: fieldtype[fieldtype.field_name == 'ThirdParty_Info_Period4_3'].field_type
+27/25: type(fieldtype[fieldtype.field_name == 'ThirdParty_Info_Period4_3'].field_type)
+27/26: type(fieldtype[fieldtype.field_name == 'ThirdParty_Info_Period4_3'].field_type).value
+27/27: type(fieldtype[fieldtype.field_name == 'ThirdParty_Info_Period4_3'].field_type).values
+27/28: fieldtype[fieldtype.field_name == 'ThirdParty_Info_Period4_3']
+27/29: fieldtype[fieldtype.field_name == 'ThirdParty_Info_Period4_3']['field_type']
+27/30: fieldtype[fieldtype.field_name == 'ThirdParty_Info_Period4_3']['field_type'] == 'Numerical'
+27/31: fieldtype[fieldtype.field_name == 'ThirdParty_Info_Period4_3'].field_type == 'Numerical'
+27/32:
+for x in master_train.columns:
+    print fieldtype[fieldtype.field_name == x].field_type == 'Categorical'
+27/33:
+for x in master_train.columns:
+            if fieldtype[fieldtype.field_name == x].field_type == 'Categorical':
+                le.fit(master_train[x].values)
+                master_train[x] = le.transform(master_train[x])
+27/34:
+for x in master_train.columns:
+            if fieldtype[fieldtype.field_name == x].field_type == 'Categorical':
+                print x
+27/35:
+for x in master_train.columns:
+            print fieldtype[fieldtype.field_name == x].field_type
+            if fieldtype[fieldtype.field_name == x].field_type == 'Categorical':
+                le.fit(master_train[x].values)
+                master_train[x] = le.transform(master_train[x])
+27/36:
+for x in master_train.columns:
+            print fieldtype[fieldtype.field_name == x].field_type
+27/37:
+for x in master_train.columns:
+    print fieldtype[fieldtype.field_name == x].field_type[1]
+27/38:
+for x in master_train.columns:
+    print fieldtype[fieldtype.field_name == x].field_type[0]
+27/39:
+for x in master_train.columns:
+    print fieldtype[fieldtype.field_name == x].field_type
+27/40:
+for x in master_train.columns:
+    print fieldtype[fieldtype.field_name == x].field_type.field_type
+27/41:
+for x in master_train.columns:
+    print fieldtype[fieldtype.field_name == x].field_type
+27/42: fieldtype.count()
+27/43:
+for x in master_train.columns:
+    if x in fieldtype.field_name:
+        print fieldtype[fieldtype.field_name == x].field_type
+27/44:
+for x in master_train.columns:
+    if x in fieldtype.field_name.values:
+        print fieldtype[fieldtype.field_name == x].field_type
+27/45:
+for x in master_train.columns:
+    if x in fieldtype.field_name.values:
+        fieldtype[fieldtype.field_name == x].field_type
+27/46:
+for x in master_train.columns:
+    if x in fieldtype.field_name.values:
+            if fieldtype[fieldtype.field_name == x].field_type == 'Categorical':
+                le.fit(master_train[x].values)
+                master_train[x] = le.transform(master_train[x])
+28/1: import pandas as pd
+28/2: train = pd.read_csv('PPD_Master_GBK_2_Test_Set.csv',encoding='GBK')
+28/3: train = pd.read_csv('PPD_Master_GBK_2_Test_Set.csv',encoding='gbk')
+28/4: train = pd.read_csv('PPD_Master_GBK_2_Test_Set.csv',encoding='gbk')
+28/5: train = pd.read_csv('PPD_Master_GBK_2_Test_Set.csv')
+28/6: train.head()
+28/7: test = pd.read_csv('PPD_Master_GBK_2_Test_Set.csv')
+29/1: test = pd.read_csv('./Test_set/PPD_Master_GBK_2_Test_Set.csv')
+29/2: import pandas as pd
+29/3: test = pd.read_csv('./Test_set/PPD_Master_GBK_2_Test_Set.csv')
+29/4: test.head()
+29/5: train = pd.read_csv('./Training_set/PPD_Training_Master_GBK_3_1_Training_Set.csv',encoding='bgk')
+29/6: train = pd.read_csv('./Training_set/PPD_Training_Master_GBK_3_1_Training_Set.csv',encoding='gbk')
+29/7: train.head()
+29/8: train.shape
+29/9: test.shape
+29/10: train.target
+29/11: test.target
+29/12: test['target'] = 0
+29/13: test.target
+29/14: test.shape
+29/15: test.shape
+29/16: train.shape
+29/17: test_train = pd.concat([train,test])
+29/18: test_train.shape
+29/19: test_train.ix[1]
+29/20: test.head()
+29/21: train.head()
+29/22: target
+29/23: train.index
+29/24: train.index.values
+29/25: test.index.values
+29/26: train_test = pd.concat([train,test])
+29/27: train_test.index.values
+29/28: train_test.shape
+29/29: train.head()
+29/30: train[train.Idx==10001]
+29/31: train[train.Idx==10001]['UserInfo_1']
+29/32: train[train.Idx==10001]['UserInfo_1'] = 9999
+29/33: train.loc[train.Idx==10001,'UserInfo_1']
+29/34: train.loc[train.Idx==10001,'UserInfo_1'] = 9999
+29/35: train_test.head()
+29/36: train_test.UserInfo_1.head()
+29/37: train_test.UserInfo_1
+29/38: train_test.head()
+29/39: train_test[['Idx','UserInfo_1']].head()
+29/40: train[['Idx','UserInfo_1']].head()
+29/41: train['source']='train'
+29/42: test['source']='test'
+29/43: train_test = pd.concat([train,test])
+29/44: train_test['source']
+29/45: train = pd.read_csv('./Training_set/PPD_Training_Master_GBK_3_1_Training_Set_utf8.csv')
+29/46: train.head()
+29/47: train = pd.read_csv('./Training_set/PPD_Training_Master_GBK_3_1_Training_Set.csv',encoding='GBK')
+29/48: train.head()
+29/49: test = pd.read_csv('./Test_set/PPD_Master_GBK_2_Test_Set.csv')
+29/50: test.head()
+29/51: train.UserInfo_2
+29/52: train.UserInfo_2.decode('GBK')
+29/53: train.UserInfo_2[0]
+29/54: train.UserInfo_2[0].decode('GBK')
+29/55: train.UserInfo_2[0].encode('GBK')
+29/56: print train.UserInfo_2[0].encode('GBK')
+29/57: print train.UserInfo_2[0].decode('GBK')
+29/58: print train.UserInfo_2[0]
+29/59: print train.UserInfo_2[0].decode('GBK')
+29/60: print test.UserInfo_2[0].decode('GBK')
+29/61: print test.UserInfo_2[0].decode('UTF-8')
+29/62: print test.UserInfo_2[0].decode('UTF8')
+29/63: print train.UserInfo_2[0].decode('utf8')
+29/64: print train.UserInfo_2[0].decode('UTF-8')
+29/65: print train.UserInfo_2[0].decode('iso8859-1')
+29/66: print train.UserInfo_2[0].decode('gbk')
+29/67: print train.UserInfo_2[0].decode('UTF-8')
+29/68: print train.UserInfo_2[0].decode('UNICODE')
+29/69: print train.UserInfo_2[0].decode('gbk')
+29/70: print train.UserInfo_2[0]
+29/71: print train.UserInfo_2[0].decode('utf-8')
+29/72: print train.UserInfo_2[0].decode('utf-8').encode('gbk')
+29/73: print train.UserInfo_2[0].decode('gbk')
+29/74: print train.UserInfo_2[0].decode('ascii')
+29/75: print train.UserInfo_2[0].decode('GBK')
+29/76: train.UserInfo_2[0]
+29/77: train.UserInfo_2[0].decode('gbk')
+29/78: train.UserInfo_2[0].decode('GBK')
+29/79: train.UserInfo_2[0].decode('UTF-8')
+29/80: train.UserInfo_2[0].decode('unicode')
+29/81: u = train.UserInfo_2[0]
+29/82: type(u)
+29/83: u.encode('utf8')
+29/84: print u.encode('utf8')
+29/85: test.UserInfo_2[0]
+29/86: u1 = test.UserInfo_2[0]
+29/87: type(u1)
+29/88: type(u)
+29/89: u1.decode('utf-8')
+29/90: print u1.decode('utf-8')
+29/91: print u.encode('utf-8')
+29/92: print u.encode('gbk')
+29/93: print u.encode('utf-8')
+29/94: print u.encode('ascii')
+29/95: print u.encode('iso8859-1')
+29/96: print u.encode('gbk')
+29/97: print u.encode('gb2312')
+29/98: print u1.decode('utf-8')
+29/99: type(u1)
+29/100: type(u)
+29/101: train.head()
+29/102: train['UserInfo_2'] = train['UserInfo_2'].apply(lambda x:x.encode('utf-8'))
+29/103: train['UserInfo_2'] = train['UserInfo_2'].apply(lambda x:x.encode('utf-8'))
+29/104: train['UserInfo_2'] = train['UserInfo_2'].apply(lambda x:x)
+29/105: train['UserInfo_2'].apply(lambda x:x)
+29/106: train['UserInfo_2'].apply(lambda x:type(x))
+29/107: train['UserInfo_2'].dtype
+29/108: train['UserInfo_2'].apply(lambda x:x.encode('utf-8'))
+29/109: train['UserInfo_2'].apply(lambda x:x.encode('utf-8'),axis=1)
+29/110: train['UserInfo_2'].apply(lambda x:x.encode('utf-8'),axis=0)
+29/111: train['UserInfo_2'].apply( lambda x:x.encode('utf-8') ,axis=1)
+29/112: train['UserInfo_2'].apply( lambda x:x.encode('utf-8') )
+29/113: train['UserInfo_2'].apply( lambda x: x )
+29/114: train['UserInfo_2']
+29/115: train[:,'UserInfo_2']
+29/116: train[:,'UserInfo_2']
+29/117: train[:,['UserInfo_2']]
+29/118: train.loc[:,'UserInfo_2']
+29/119: train.loc[:,'UserInfo_2'].apply(lambda x : type(x))
+29/120: train.loc[:,'UserInfo_2'].apply(lambda x : x.encode('utf8'))
+29/121: train.dtypes
+29/122: train.loc[:,'UserInfo_2'].apply(lambda x : x)
+29/123: train.loc[:,'UserInfo_2'].apply(lambda x : x[0])
+29/124: train.loc[:,'UserInfo_2'].apply(lambda x : x)
+29/125: type(train.loc[:,'UserInfo_2'])
+29/126: train.loc[:,'UserInfo_2'].apply(lambda x:x)
+29/127: train.loc[:,'UserInfo_2'].apply(lambda x:x)
+29/128: train.loc[:,'UserInfo_2'].apply(lambda x:type(x))
+29/129: train.loc[:,'UserInfo_2'][29980]
+29/130: train.loc[:,'UserInfo_2'].ix[29980:]
+29/131: train.loc[:,'UserInfo_2'].ix[29980,:]
+29/132: train.loc[:,'UserInfo_2'].apply(lambda x:np.isnan(x))
+29/133: import numpy as mp
+29/134: import numpy as np
+29/135: train.loc[:,'UserInfo_2'].apply(lambda x:np.isnan(x))
+29/136: train.loc[:,'UserInfo_2'].apply(lambda x:pd.isnull(x))
+29/137: train.loc[:,'UserInfo_2'].apply(lambda x: x if  pd.isnull(x) else '9999')
+29/138: train.loc[:,'UserInfo_2'].apply(lambda x: x if  !pd.isnull(x) else '9999')
+29/139: train.loc[:,'UserInfo_2'].apply(lambda x: '9999' if  pd.isnull(x) else x)
+29/140: train.loc[:,'UserInfo_2'] =  train.loc[:,'UserInfo_2'].apply(lambda x: '9999' if  pd.isnull(x) else x)
+29/141: train.loc[:,'UserInfo_2'].apply(lambda x:np.isnan(x))
+29/142: train.loc[:,'UserInfo_2'] =  train.loc[:,'UserInfo_2'].apply(lambda x: '9999' if  pd.isnull(x) else x)
+29/143: train.loc[:,'UserInfo_2'] =  train.loc[:,'UserInfo_2'].apply(lambda x: x.encode('utf-8'))
+29/144: train.loc[:,'UserInfo_2']
+29/145: train.loc[:,'UserInfo_2'] =  train.loc[:,'UserInfo_2'].apply(lambda x: type(x))
+29/146: train.loc[:,'UserInfo_2']
+29/147: train = pd.read_csv('./Training_set/PPD_Training_Master_GBK_3_1_Training_Set_utf8.csv')
+29/148: train.loc[:,'UserInfo_2']
+29/149: train.loc[:,'UserInfo_2'].apply(lambda x: type(x))
+29/150: train.loc[:,'UserInfo_2'].apply(lambda x: x.decode('gbk'))
+29/151: train.loc[:,'UserInfo_2'] =  train.loc[:,'UserInfo_2'].apply(lambda x: '9999' if  pd.isnull(x) else x)
+29/152: train.loc[:,'UserInfo_2'].apply(lambda x: x.decode('gbk'))
+29/153: train.loc[:,'UserInfo_2'].apply(lambda x: x.decode('utf-8'))
+29/154: train = pd.read_csv('./Training_set/PPD_Training_Master_GBK_3_1_Training_Set_utf8.csv',encoding='GBK')
+29/155: train.loc[:,'UserInfo_2'] =  train.loc[:,'UserInfo_2'].apply(lambda x: '9999' if  pd.isnull(x) else x)
+29/156: train.dtypes
+29/157: train
+29/158: train.UserInfo_1.dtype
+29/159: train.UserInfo_2.dtype
+29/160: train.UserInfo_3.dtype
+29/161: train.UserInfo_4.dtype
+29/162: train.loc[:,'UserInfo_2']
+29/163: print train.loc[:,'UserInfo_2']
+29/164: train = pd.read_csv('./Training_set/PPD_Training_Master_GBK_3_1_Training_Set_utf8.csv',encoding='GBK')
+29/165: train.UserInfo_2
+29/166: train = pd.read_csv('./Training_set/PPD_Training_Master_GBK_3_1_Training_Set_utf8.csv',encoding='GBK')
+29/167: print train.UserInfo_2
+33/1:
+train_filePath='/data/risk/PPD-First-Round-Data-Updated/Training_set/'
+test_filePath='/data/risk/PPD-First-Round-Data-Updated/Test_set/'
+master_train_file=self.train_filePath+'PPD_Training_Master_GBK_3_1_Training_Set.csv'
+master_test_file=self.test_filePath+'PPD_Master_GBK_2_Test_Set.csv'
+33/2:
+train_filePath='/data/risk/PPD-First-Round-Data-Updated/Training_set/'
+test_filePath='/data/risk/PPD-First-Round-Data-Updated/Test_set/'
+master_train_file=train_filePath+'PPD_Training_Master_GBK_3_1_Training_Set.csv'
+master_test_file=test_filePath+'PPD_Master_GBK_2_Test_Set.csv'
+33/3: train = pd.read_csv(master_train_file,encoding='gbk')
+33/4: import pandas as pd
+33/5: train = pd.read_csv(master_train_file,encoding='gbk')
+33/6:
+train_filePath='/data/risk/PPD-First-Round-Data-Updated/Training_set/'
+test_filePath='/data/risk/PPD-First-Round-Data-Updated/Test_set/'
+master_train_file=train_filePath+'PPD_Training_Master_GBK_3_1_Training_Set.csv'
+master_test_file=test_filePath+'PPD_Master_GBK_2_Test_Set.csv'
+33/7: train = pd.read_csv(master_train_file,encoding='gbk')
+33/8: !ls /data/risk/PPD-First-Round-Data-Updated/Training_set/
+33/9: !ls /data/risk/PPD-First-Round-Data-Updated
+33/10: !ls /data/risk
+33/11: !ls /data/risk/PPD-First-Round-Data-Update
+33/12:
+train_filePath='/data/risk/PPD-First-Round-Data-Update/Training_set/'
+test_filePath='/data/risk/PPD-First-Round-Data-Update/Test_set/'
+master_train_file=train_filePath+'PPD_Training_Master_GBK_3_1_Training_Set.csv'
+master_test_file=test_filePath+'PPD_Master_GBK_2_Test_Set.csv'
+33/13: train = pd.read_csv(master_train_file,encoding='gbk')
+33/14: !ls /data/risk/PPD-First-Round-Data-Update/
+33/15: !ls /data/risk/PPD-First-Round-Data-Update/Training_Set/
+33/16: train = pd.read_csv(master_train_file,encoding='gbk')
+33/17: !ls /data/risk/PPD-First-Round-Data-Update/Training_set/PPD_Training_Master_GBK_3_1_Training_Set.csv
+33/18: !ls /data/risk/PPD-First-Round-Data-Update/Training_set
+33/19: !ls /data/risk/PPD-First-Round-Data-Update
+33/20: !ls /data/risk/PPD-First-Round-Data-Update/Training_Set/
+33/21: ll
+33/22: cd ..
+33/23: ll
+33/24: mv PPD-First-Round-Data-Update/  1
+33/25: ll
+33/26: cd  1/
+33/27: ll
+33/28: mv Test_Set/ test
+33/29: mv Training_Set/  train
+33/30: cd  test/
+33/31: ll
+33/32: cd ..
+33/33: cd ..
+33/34: ll
+33/35: rm -rf 1
+33/36: ll
+33/37: rm -rf PPD_RiskControlCompetition-master/
+33/38: ll
+33/39: mkdir zip
+33/40: mv *.zip zip
+33/41: ll
+33/42: mv zip zipfile
+33/43: ll
+33/44: unzip ./zipfile/PPD-First-Round-Data-Updated.zip
+33/45: unzip zipfile/PPD-First-Round-Data-Updated.zip
+33/46: unzip zipfile/PPD-First-:q:qRound-Data-Updated.zip
+33/47: :q
+34/1: train_filePath='/data/risk/PPD-First-Round-Data-Update/Training_set/'
+34/2: test_filePath='/data/risk/PPD-First-Round-Data-Update/Test_set/'
+34/3: !ls train_filePath
+34/4: !ls $train_filePath
+34/5: train_filePath='/data/risk/PPD-First-Round-Data-Updated/Training_set/'
+34/6: test_filePath='/data/risk/PPD-First-Round-Data-Updated/Test_set/'
+34/7: !ls $train_filePath
+34/8: train_filePath='/data/risk/PPD-First-Round-Data-Update/Training_set/'
+34/9: test_filePath='/data/risk/PPD-First-Round-Data-Update/Test_set/'
+34/10: !ls $train_filePath
+34/11: test_filePath='/data/risk/PPD-First-Round-Data-Update/Test_Set/'
+34/12: train = pd.read_csv(master_train_file)
+34/13: import pandas as pd
+34/14: train = pd.read_csv(master_train_file)
+34/15: train_filePath='/data/risk/PPD-First-Round-Data-Update/Training_Set/'
+34/16: train = pd.read_csv(master_train_file)
+34/17: train_filePath='/data/risk/PPD-First-Round-Data-Update/Training_Set/'
+34/18: train = pd.read_csv( train_filePath +  'PPD_Training_Master_GBK_3_1_Training_Set.csv')
+34/19: train.UserInfo_2
+34/20: train.UserInfo_2[0]
+34/21: train.UserInfo_2[0].decode('GBK')
+34/22: print train.UserInfo_2[0].decode('GBK')
+34/23: print train.UserInfo_2[0].decode('GBK').encode('utf8')
+34/24: test_filePath='/data/risk/PPD-First-Round-Data-Update/Test_Set/'
+34/25: master_test_file=self.test_filePath+'PPD_Master_GBK_2_Test_Set.csv'
+34/26: master_test_file=test_filePath+'PPD_Master_GBK_2_Test_Set.csv'
+34/27: master_test=pd.read_csv(self.master_test_file,sep=',')
+34/28: master_test=pd.read_csv(master_test_file,sep=',')
+34/29: master_test.UserInfo_2
+34/30: master_test.UserInfo_2[0]
+34/31: master_test.UserInfo_2[0].decode('GBK')
+34/32: print master_test.UserInfo_2[0].decode('GBK')
+34/33: print train.UserInfo_2[0].decode('GBK')
+38/1: import risk
+39/1: import risk
+39/2: risk_c = risk.Risk()
+39/3: risk_c.handle_data_nan(risk_c.train_filePath)
+39/4: risk_c.train_filePath
+39/5: risk_c.master_train_file
+39/6: risk_c.handle_data_nan(risk_c.master_train_file)
+39/7: master_train = risk_c.handle_data_nan(risk_c.master_train_file)
+39/8: master_train
+39/9: import pandas as pd
+39/10: pd.value_counts(master_train,dropna=False)
+39/11: pd.value_counts(master_train)
+39/12: pd.value_counts(master_train.UserInfo_2)
+39/13: master_train.UserInfo_2.count()
+39/14: master_train.UserInfo_2.apply( lambda x : '99999' if  pd.isnull(x) else  x.decoding('gbk')   )
+39/15: master_train.UserInfo_2.apply( lambda x : '99999' if  pd.isnull(x) else  x.encoding('gbk')   )
+39/16: master_train.UserInfo_2.apply( lambda x : '99999' if  pd.isnull(x) else  x  )
+39/17: master_train.UserInfo_2[0]
+39/18: master_train.UserInfo_2[0].decoding('gbk')
+39/19: master_train.UserInfo_2[0].decode('gbk')
+39/20: print master_train.UserInfo_2[0].decode('gbk')
+39/21: master_train.UserInfo_2.apply( lambda x : '99999' if  pd.isnull(x) else  x.decode('gbk')   )
+39/22:  master_train.UserInfo_2 =   master_train.UserInfo_2.apply( lambda x : '99999' if  pd.isnull(x) else  x.encoding('gbk')   )
+39/23:  master_train.UserInfo_2 =   master_train.UserInfo_2.apply( lambda x : '99999' if  pd.isnull(x) else  x.decode('gbk')   )
+39/24: master_train.UserInfo_2
+39/25: master_train.UserInfo_2.count()
+39/26: master_train.count()
+39/27: master_train = risk_c.handle_data_nan(risk_c.master_train_file)
+39/28: master_train = risk_c.handle_data_nan(risk_c.master_train_file)
+40/1: import risk
+40/2: risk_c = risk.Risk()
+40/3: master_train = risk_c.handle_data_nan(risk_c.master_train_file)
+40/4: master_train.count()
+40/5: master_train.UserInfo_2
+40/6: master_train.UserInfo_4
+40/7: master_train.UserInfo_1
+40/8: master_train.UserInfo_2
+40/9: master_test = risk_c.handle_data_nan(risk_c.master_test_file)
+40/10: master_test
+40/11: master_test.count()
+40/12: master_test.columns
+40/13: if 'target' not in master_test.columns
+40/14:  'target' not in master_test.columns
+40/15: master_test.shape
+40/16: master_train.shape
+40/17: master_test['target'] = 0
+40/18: import pandas as pd
+40/19: master_train_test = pd.concat([master_test,master_train])
+40/20: master_train_test.count()
+40/21: master_train_test.UserInfo_2
+40/22: master_train_test.UserInfo_2 = master_train_test.UserInfo_2.apply(lambda x:x.decode('gbk') )
+40/23: master_train_test.UserInfo_2
+40/24: master_train_test.UserInfo_4
+40/25: master_train_test.UserInfo_4 = master_train_test.UserInfo_4.apply(lambda x:x.decode('gbk') )
+40/26: master_train_test.UserInfo_4
+40/27: master_train_test.UserInfo_6
+40/28: master_train_test.UserInfo_5
+40/29: master_train_test.UserInfo_7
+40/30: master_train_test.UserInfo_8
+40/31: master_train_test.UserInfo_9
+40/32: master_train_test.UserInfo_10
+40/33: master_train_test.UserInfo_7
+40/34: master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
+40/35: master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
+40/36: master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
+40/37: master_train_test.UserInfo_9 = master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
+40/38: master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
+40/39: master_train_test.UserInfo_8 = master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
+40/40: master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
+40/41: master_train_test.UserInfo_7 = master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
+40/42: master_train_test.to_csv?
+40/43: master_train_test.to_csv('master_train_test',encoding='utf8')
+40/44: master_train_test.to_csv('master_train_test',encoding='utf-8')
+40/45: master_train_test.to_csv('master_train_test',encoding='gbk')
+40/46: master_train_test.to_csv('master_train_test')
+40/47: master_train_test.to_csv('master_train_test.csv')
+40/48: master_train_test.UserInfo_2
+40/49: type(master_train_test.UserInfo_2)
+40/50: master_train_test.UserInfo_2[0]
+40/51: master_train_test.to_csv('master_train_test.csv')
+40/52: master_train_test.to_csv?
+40/53: master_train_test.to_csv('master_train_test.csv',encoding='utf-8')
+40/54: master_train_test.to_csv('master_train_test.csv',encoding='gbk')
+40/55: master_train_test.to_csv('master_train_test.csv',encoding='ascii')
+40/56: master_train_test.to_csv('master_train_test.csv')
+40/57: risk_c.handle_data_pre(  master_train_test )
+40/58: master_pre = risk_c.handle_data_pre(  master_train_test )
+40/59: master_pre
+40/60: master_pre.count()
+40/61: master_pre.year
+40/62: master_pre.UserInfo_1
+40/63: master_pre.UserInfo_2
+40/64: master_pre['year']
+40/65: master_pre = risk_c.handle_data_pre(  master_train_test )
+52/1: import risk
+52/2: risk_c = risk.Risk()
+52/3: master_train = risk.handle_data_nan(risk.master_train_file)
+52/4: master_train = risk_c.handle_data_nan(risk.master_train_file)
+52/5: master_train = risk_c.handle_data_nan(risk_c.master_train_file)
+52/6: master_train_test = master_train
+52/7:
+master_train_test.UserInfo_2 = master_train_test.UserInfo_2.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_4 = master_train_test.UserInfo_4.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_7 = master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_8 = master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_9 = master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
+52/8:
+    master_train_test.UserInfo_2 = master_train_test.UserInfo_2.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_4 = master_train_test.UserInfo_4.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_7 = master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_8 = master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_9 = master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
+52/9: master_train_test
+52/10: master_train_test['target'] == 0
+52/11: master_train_test[:,'target'] == 0
+52/12: master_train_test[:,['target']] == 0
+52/13: master_train_test[:,'target']
+52/14: master_train_test['target']
+52/15: master_train_test['target'] == 0
+52/16: aa = master_train_test['target'] == 0
+52/17: aa
+52/18: master_train_test[:,'target'] == 0
+52/19: master_train_test.ix[:,'target'] == 0
+52/20: master_train_test.columns
+52/21: master_train_test.columns.index
+52/22: master_train_test.columns
+52/23: master_train_test.columns[221]
+52/24: master_train_test.ix[:,221] == 0
+52/25: aa = master_train_test.ix[:,221] == 0
+52/26: aa
+52/27: neg = master_train_test.ix[:,221] == 0
+52/28: pos = master_train_test.ix[:,221] == 1
+52/29: import matplotlib.pyplot as plt
+52/30:
+if axes == None:
+        axes = plt.gca()
+52/31: axes = None
+52/32:
+if axes == None:
+        axes = plt.gca()
+52/33: master_train_test[pos]
+52/34: axes.scatter(master_train_test[pos][:,0], master_train_test[pos][:,1], marker='+', c='k', s=60, linewidth=2, label='pass')
+52/35: axes.scatter(master_train_test[pos][:,0], master_train_test[pos][:,1], marker='+', c='k', s=60, linewidth=2, label='pass')
+52/36: master_train_test[pos][:,0]
+52/37: master_train_test[pos]
+52/38: master_train_test[pos][:,0]
+52/39: master_train_test[pos]
+52/40: master_train_test[pos][0]
+52/41: master_train_test[pos].ix[0]
+52/42: master_train_test[pos].ix[:,0]
+52/43: axes.scatter(master_train_test[pos].ix[:,0], master_train_test[pos].ix[:,1], marker='+', c='k', s=60, linewidth=2, label='pass')
+52/44: axes.scatter(master_train_test[neg][:,0], master_train_test[neg][:,1], c='y', s=60, label='neg')
+52/45: axes.scatter(master_train_test[neg].ix[:,0], master_train_test[neg].ix[:,1], c='y', s=60, label='neg')
+52/46:
+axes.set_xlabel('xxxx')
+axes.set_ylabel('yyyy')
+52/47: axes.legend()
+52/48: plt.show()
+52/49: master_train_test[neg].ix[:,0]
+52/50: master_train_test[neg].ix[:,0].size()
+52/51: master_train_test[neg].ix[:,0].size
+52/52: master_train_test[pos].ix[:,0].size
+52/53: master_train_test[pos].ix[:,0]
+52/54: master_train_test[pos].ix[:,1]
+52/55: master_train_test[pos].ix[:,2]
+52/56: axes.scatter(master_train_test[pos].ix[:,2], master_train_test[pos].ix[:,4], marker='+', c='k', s=60, linewidth=2, label='pass')
+52/57: axes.scatter(master_train_test[pos].ix[:,2], master_train_test[pos].ix[:,4], marker='+', c='k', s=60, linewidth=2, label='pass')
+52/58: axes.scatter(master_train_test[pos].ix[:,1], master_train_test[pos].ix[:,4], marker='+', c='k', s=60, linewidth=2, label='pass')
+52/59: master_train_test[pos].ix[:,1]
+52/60: master_train_test[pos].ix[:,2]
+52/61: master_train_test[pos].ix[:,4]
+52/62: master_train_test[pos].ix[:,4].apply(lambda x : type(x))
+52/63: axes.scatter(master_train_test[pos].ix[:,1], master_train_test[pos].ix[:,4], marker='+', c='k', s=60, linewidth=2, label='pass')
+52/64: master_train_test[pos].ix[:,4].apply(lambda x : 1  if type(x) == 'Unicode' else 0   )
+52/65: master_train_test[pos].ix[:,4].apply(lambda x : 1  if type(x) is 'Unicode' else 0   )
+52/66: master_train_test[pos].ix[:,4].apply(lambda x : 1  if type(x) instanceof  Unicode else 0   )
+52/67: master_train_test[pos].ix[:,4].apply(lambda x : 1  if str(type(x)) == 'unicode' else 0   )
+52/68: master_train_test[pos].ix[:,4].value_counts()
+52/69: master_train_test[pos].ix[:,4].value_counts?
+52/70: master_train_test[pos].ix[:,4]
+52/71: master_train_test[pos].ix[:,5].value_counts?
+52/72: master_train_test[pos].ix[:,5]
+52/73: master_train_test[pos].ix[:,6]
+52/74: axes.scatter(master_train_test[pos].ix[:,2], master_train_test[pos].ix[:,6], marker='+', c='k', s=60, linewidth=2, label='pass')
+52/75: axes.scatter(master_train_test[pos].ix[:,1], master_train_test[pos].ix[:,6], marker='+', c='k', s=60, linewidth=2, label='pass')
+52/76: plt.show()
+52/77: axes.legend()
+52/78: plt.show()
+52/79: plt.scatter?
+53/1: import risk
+53/2: import matplotlib.pyplot as plt
+53/3: import pandas as pd
+53/4: import numpy as np
+53/5: aa
+53/6: import risk as risk1
+53/7: risk = risk1.Risk()
+53/8: master_train = risk.handle_data_nan(risk.master_train_file)
+53/9: master_train = risk.handle_data_pre(master_train)
+53/10: master_train_test = master_train
+53/11:
+    master_train_test.UserInfo_2 = master_train_test.UserInfo_2.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_4 = master_train_test.UserInfo_4.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_7 = master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_8 = master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_9 = master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
+53/12: pd
+53/13: master_train_test.plot?
+53/14: master_train_test.plot?
+53/15:
+def plotData(data, label_x, label_y, label_pos, label_neg, axes=None):
+    # 获得正负样本的下标(即哪些是正样本，哪些是负样本)
+    neg = data[:,2] == 0
+    pos = data[:,2] == 1
+    
+    if axes == None:
+        axes = plt.gca()
+    axes.scatter(data[pos][:,0], data[pos][:,1], marker='+', c='k', s=60, linewidth=2, label=label_pos)
+    axes.scatter(data[neg][:,0], data[neg][:,1], c='y', s=60, label=label_neg)
+    axes.set_xlabel(label_x)
+    axes.set_ylabel(label_y)
+    axes.legend(frameon= True, fancybox = True);
+53/16: master_train_test.columns
+53/17: master_train_test[221]
+53/18: master_train_test[:,221]
+53/19: master_train_test.ix[:,221]
+53/20: master_train_test.columns[221]
+53/21:
+def plotData(data, label_x, label_y, label_pos, label_neg, axes=None):
+    # 获得正负样本的下标(即哪些是正样本，哪些是负样本)
+    neg = data[:,221] == 0
+    pos = data[:,221] == 1
+    
+    if axes == None:
+        axes = plt.gca()
+    axes.scatter(data[pos][:,0], data[pos][:,1], marker='+', c='k', s=60, linewidth=2, label=label_pos)
+    axes.scatter(data[neg][:,0], data[neg][:,1], c='y', s=60, label=label_neg)
+    axes.set_xlabel(label_x)
+    axes.set_ylabel(label_y)
+    axes.legend(frameon= True, fancybox = True);
+53/22:
+def plotData(data, label_x, label_y, label_pos, label_neg, axes=None):
+    # 获得正负样本的下标(即哪些是正样本，哪些是负样本)
+    neg = data[:,221] == 0
+    pos = data[:,221] == 1
+    
+    if axes == None:
+        axes = plt.gca()
+    axes.scatter(data[pos][:,0], data[pos][:,1], marker='+', c='k', s=60, linewidth=2, label=label_pos)
+    axes.scatter(data[neg][:,0], data[neg][:,1], c='y', s=60, label=label_neg)
+    axes.set_xlabel(label_x)
+    axes.set_ylabel(label_y)
+    axes.legend(frameon= True, fancybox = True);
+    plt.show()
+53/23: plotData(master_train_test,'xxxx','yyyy','pos','neg')
+53/24:
+def plotData(data, label_x, label_y, label_pos, label_neg, axes=None):
+    # 获得正负样本的下标(即哪些是正样本，哪些是负样本)
+    neg = data.ix[:,221] == 0
+    pos = data.ix[:,221] == 1
+    
+    if axes == None:
+        axes = plt.gca()
+    axes.scatter(data[pos].ix[:,0], data[pos].ix[:,1], marker='+', c='k', s=60, linewidth=2, label=label_pos)
+    axes.scatter(data[neg].ix[:,0], data[neg].ix[:,1], c='y', s=60, label=label_neg)
+    axes.set_xlabel(label_x)
+    axes.set_ylabel(label_y)
+    axes.legend(frameon= True, fancybox = True);
+    plt.show()
+53/25: plotData(master_train_test,'xxxx','yyyy','pos','neg')
+53/26:
+def plotData(data,x_idx, label_x,y_idx, label_y, label_pos, label_neg, axes=None):
+    # 获得正负样本的下标(即哪些是正样本，哪些是负样本)
+    neg = data[:,221] == 0
+    pos = data[:,221] == 1
+    
+    if axes == None:
+        axes = plt.gca()
+    axes.scatter(data[pos][:,x_idx], data[pos][:,y_idx], marker='+', c='k', s=60, linewidth=2, label=label_pos)
+    axes.scatter(data[neg][:,x_idx], data[neg][:,y_idx], c='y', s=60, label=label_neg)
+    axes.set_xlabel(label_x)
+    axes.set_ylabel(label_y)
+    axes.legend(frameon= True, fancybox = True);
+53/27:
+def plotData(data,x_idx, label_x,y_idx, label_y, label_pos, label_neg, axes=None):
+    # 获得正负样本的下标(即哪些是正样本，哪些是负样本)
+    neg = data[:,221] == 0
+    pos = data[:,221] == 1
+    
+    if axes == None:
+        axes = plt.gca()
+    axes.scatter(data[pos][:,x_idx], data[pos][:,y_idx], marker='+', c='k', s=60, linewidth=2, label=label_pos)
+    axes.scatter(data[neg][:,x_idx], data[neg][:,y_idx], c='y', s=60, label=label_neg)
+    axes.set_xlabel(label_x)
+    axes.set_ylabel(label_y)
+    axes.legend(frameon= True, fancybox = True);
+    plt.show()
+53/28: plotData(master_train_test,1,'xxxx',,2'yyyy','pos','neg')
+53/29: plotData(master_train_test,1,'xxxx',2'yyyy','pos','neg')
+53/30: plotData(master_train_test,1,'xxxx',2,'yyyy','pos','neg')
+53/31:
+def plotData(data,x_idx, label_x,y_idx, label_y, label_pos, label_neg, axes=None):
+    # 获得正负样本的下标(即哪些是正样本，哪些是负样本)
+    neg = data.ix[:,221] == 0
+    pos = data.ix[:,221] == 1
+    
+    if axes == None:
+        axes = plt.gca()
+    axes.scatter(data[pos].ix[:,x_idx], data[pos].ix[:,y_idx], marker='+', c='k', s=60, linewidth=2, label=label_pos)
+    axes.scatter(data[neg].ix[:,x_idx], data[neg].ix[:,y_idx], c='y', s=60, label=label_neg)
+    axes.set_xlabel(label_x)
+    axes.set_ylabel(label_y)
+    axes.legend(frameon= True, fancybox = True);
+    plt.show()
+53/32: plotData(master_train_test,1,'xxxx',2,'yyyy','pos','neg')
+53/33: master_train_test = risk.handle_data_cat_encode(master_train_test)
+53/34: master_train_test
+53/35: master_train_test.count()
+53/36: plotData(master_train_test,1,'xxxx',2,'yyyy','pos','neg')
+53/37: master_train_test
+53/38: master_train_test[:1]
+53/39: master_train_test[:,1]
+53/40: master_train_test.ix[:,1]
+53/41: master_train_test.ix[:,2]
+53/42: plotData(master_train_test,1,'xxxx',2,'yyyy','pos','neg')
+53/43:
+def plotData(data,x_idx, label_x,y_idx, label_y, label_pos, label_neg, axes=None):
+    # 获得正负样本的下标(即哪些是正样本，哪些是负样本)
+    neg = data.ix[:,221] == 0
+    pos = data.ix[:,221] == 1
+    
+    if axes == None:
+        axes = plt.gca()
+    axes.scatter(data[pos].ix[:,x_idx], data[pos].ix[:,y_idx], marker='+', c='k', s=60, linewidth=2, label=label_pos)
+    #axes.scatter(data[neg].ix[:,x_idx], data[neg].ix[:,y_idx], c='y', s=60, label=label_neg)
+    axes.set_xlabel(label_x)
+    axes.set_ylabel(label_y)
+    axes.legend(frameon= True, fancybox = True);
+    plt.show()
+53/44: plotData(master_train_test,1,'xxxx',2,'yyyy','pos','neg')
+53/45: import matplotlib
+53/46: matplotlib.rcParams
+53/47: matplotlib.rcParams['savefig.dpi']
+53/48: matplotlib.rcParams['savefigure.dpi']
+53/49: matplotlib.rcParams |~grep save
+53/50: matplotlib.rcParams |~grep 'save'
+53/51: matplotlib.rcParams['savefig.dpi']
+53/52: matplotlib.rcParams['savefig.dpi']
+53/53: matplotlib.rcParams["savefig.dpi"]
+53/54: matplotlib.__version__
+53/55: plt.plot?
+53/56: plotData(master_train_test,1,'xxxx',2,'yyyy','pos','neg')
+53/57: master_train_test.to_csv('master_train_test_encode_label.csv')
+53/58: master_train_test.describe()
+53/59: master_train_test.Idx.astype('category').describe()
+53/60: master_train_test.index
+53/61: master_train_test.index.values
+53/62: risk.fieldtype
+53/63: master_train_test.UserInfo_1.name
+53/64: master_train_test.apply(lambda x : x.astype('category')  if field_type[x.name][field_type] == 'Categorical'  ,axis=1)
+53/65: master_train_test.apply(lambda x : x.astype('category')  if field_type[x.name][field_type] == 'Categorical'  ,axis=1)
+53/66: master_train_test.apply(lambda x : x.astype('category')  if field_type[x.name][field_type] == 'Categorical' else x  ,axis=1)
+53/67: master_train_test.apply(lambda x : x.astype('category')  if x.name]  in field_type.field_name.values and  field_type.field_type.values[x.name]  == 'Categorical' else x  ,axis=1)
+53/68: master_train_test.apply(lambda x : x.astype('category')  if x.name]  in field_type.field_name.values  else x  ,axis=1)
+53/69: master_train_test.apply(lambda x : x.astype('category')  if x.name  in field_type.field_name.values  else x  ,axis=1)
+53/70: field_type[0]
+53/71: field_type = risk.fieldtype
+53/72: fieldtype = risk.fieldtype
+53/73: master_train_test.apply(lambda x : x.astype('category')  if x.name  in fieldtype.field_name.values  else x  ,axis=1)
+53/74: master_train_test.apply(lambda x : x.astype('category')  if x.name]  in fieldtype.field_name.values and  fieldtype.field_type.values[x.name]  == 'Categorical' else x  ,axis=1)
+53/75: master_train_test.apply(lambda x : x.astype('category')  if x.name  in fieldtype.field_name.values and  fieldtype.field_type.values[x.name]  == 'Categorical' else x  ,axis=1)
+53/76: aa = master_train_test.apply(lambda x : x.astype('category')  if x.name  in fieldtype.field_name.values and  fieldtype.field_type.values[x.name]  == 'Categorical' else x  ,axis=1)
+53/77: aa.columns
+53/78: aa['UserInfo_2'].dtype
+53/79: aa['UserInfo_2'].dtypes
+53/80: aa.dtypes
+53/81: import numpy as np
+53/82: master_train_test.UserInfo_2.astype('category')
+53/83: aa=master_train_test.UserInfo_2.astype('category')
+53/84: aa.count()
+53/85: aa.groupby(aa.values).agg(np.sum)
+53/86: aa.groupby(aa.values).agg(np.size)
+53/87: bb=aa.groupby(aa.values).agg(np.size)
+53/88: bb.sort()
+53/89: bb.sort_values()
+53/90: pd.value_counts(master_train)
+53/91: pd.value_counts(master_train.UserInfo_2)
+53/92: pd.value_counts(master_train.UserInfo_1)
+53/93: pd.value_counts(master_train.Idx)
+53/94: pd.value_counts(master_train.UserInfo_3)
+53/95: pd.value_counts(master_train.UserInfo_4)
+53/96: pd.value_counts(master_train.UserInfo_5)
+53/97: pd.value_counts(master_train.UserInfo_6)
+53/98: pd.value_counts(master_train.UserInfo_7)
+53/99: pd.value_counts(master_train.UserInfo_221)
+53/100: pd.value_counts(master_train.target)
+53/101: pd.value_counts(master_train.year)
+53/102: pd.value_counts(master_train.year,master_train_test.target)
+53/103: plt.bar?
+53/104: plt.bar(master_train_test.target)
+53/105: plt.bar?
+53/106: plt.plot?
+53/107: plt.plot(master_train_test.year,master_train_test.target)
+53/108: plt.show()
+53/109: %hist --help
+53/110: %hist --h
+53/111: %hist -h
+53/112: %hist
+53/113: %history -g -f  /data/history_20170408.txt
+53/114: master_train_test
+53/115:
+for x in master_train_test.columns:
+    pd.value_counts(master_train_test[x])
+53/116: of = open('out.txt','wb')
+53/117:
+for x in master_train_test.columns:
+    print >> of, pd.value_counts(master_train_test[x])
+55/1: import risk as risk1
+55/2: risk = risk1.Risk()
+55/3:
+    master_train = risk.handle_data_nan(risk.master_train_file)
+    master_test = risk.handle_data_nan(risk.master_test_file)
+    
+    master_train = risk.handle_data_pre(master_train)
+    master_test = risk.handle_data_pre(master_test)
+    
+    master_test['target'] = 0
+    master_test['source'] = 'test'
+    master_train['source'] = 'train'
+    
+    master_train_test = pd.concat([master_train,master_test])
+    
+    master_train_test.UserInfo_2 = master_train_test.UserInfo_2.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_4 = master_train_test.UserInfo_4.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_7 = master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_8 = master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_9 = master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
+    
+    master_train_test = risk.handle_data_cat_encode(master_train_test)
+    
+    master_train_test = master_train_test.drop(['Idx'],axis=1)
+55/4: import pandas as pd
+55/5: import numpy as np
+55/6: import matplotlib.pyplot as plt
+55/7:
+    master_train = risk.handle_data_nan(risk.master_train_file)
+    master_test = risk.handle_data_nan(risk.master_test_file)
+    
+    master_train = risk.handle_data_pre(master_train)
+    master_test = risk.handle_data_pre(master_test)
+    
+    master_test['target'] = 0
+    master_test['source'] = 'test'
+    master_train['source'] = 'train'
+    
+    master_train_test = pd.concat([master_train,master_test])
+    
+    master_train_test.UserInfo_2 = master_train_test.UserInfo_2.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_4 = master_train_test.UserInfo_4.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_7 = master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_8 = master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_9 = master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
+    
+    master_train_test = risk.handle_data_cat_encode(master_train_test)
+    
+    master_train_test = master_train_test.drop(['Idx'],axis=1)
+55/8: master_train_test.columns
+55/9: import   sklearn.preprocessing  as preprocessing
+55/10: preprocessing.MultiLabelBinarizer?
+55/11: sin(90)
+55/12: np.sin(90)
+55/13: np.sin(180)
+55/14: master_train.columns
+55/15: master_train_test.head()
+55/16: master_train_test.UserInfo_2
+55/17: pd.value_counts( master_train_test.UserInfo_2 )
+55/18: aa=pd.value_counts( master_train_test.UserInfo_2 )
+55/19: aa.dtype
+55/20: type(aa)
+55/21: aa
+55/22: aa.index
+55/23: aa.values
+55/24: plt.plot(aa.index,aa.values,kind='bar')
+55/25: plt.plot(aa.index.values,aa.values,kind='bar')
+55/26: plt.plot?
+55/27: plt.bar?
+55/28: aa.plot(aa.index.values,aa.values,kind='bar')
+55/29: plt.bar?
+55/30: aa.plot?
+55/31: aa.plot(kind='bar')
+55/32: plt.show()
+55/33: aa.describe()
+55/34: aa[aa>54].plot(kind='bar')
+55/35: plt.show()
+55/36: aa[aa>100].plot(kind='bar')
+55/37: plt.show()
+55/38: aa= pd.value_counts(master_test.UserInfo_2)
+55/39: aa
+55/40: aa= pd.value_counts(master_test.UserInfo_2.apply(lambda x:x.decode('gbk')))
+55/41: aa
+55/42: aa.describe()
+55/43: aa[aa>100].plot(kind='bar')
+55/44: plt.show()
+55/45: from pylab import *
+55/46: mpl.rcParams['font.sans-serif'] = ['SimHei']
+55/47: mpl.rcParams['axes.unicode_minus'] = False
+55/48: plt.show()
+55/49: aa[aa>100].plot(kind='bar')
+55/50: plt.show()
+55/51: from  sklearn  import preprocessing
+55/52: labelEncode = preprocessing.LabelEncoder()
+55/53: labelEncode.fit(master_test.UserInfo_2.apply(lambda x:x.decode('gbk')))
+55/54: aa = labelEncode.transform(master_test.UserInfo_2.apply(lambda x:x.decode('gbk')))
+55/55: aa
+55/56: aa.size
+55/57: aa
+55/58: aa = pd.value_counts(master_test.UserInfo_2.apply(lambda x:x.decode('gbk')))
+55/59: labelEncode = preprocessing.LabelEncoder()
+55/60: labelEncode.fit(master_test.UserInfo_2.apply(lambda x:x.decode('gbk')))
+55/61: aa_transform = labelEncode.transform(master_test.UserInfo_2.apply(lambda x:x.decode('gbk')))
+55/62: aa
+55/63: aa_transform
+55/64: labelEncode.get_params?
+55/65: labelEncode.inverse_transform(aa_transform)
+55/66: print labelEncode.inverse_transform(aa_transform)
+55/67: print labelEncode.inverse_transform(aa_transform)[0]
+55/68: aa_transform
+55/69: aa_transform.size
+55/70: aa.size
+55/71: aa
+55/72: master_test.UserInfo_2 = aa_transform
+59/1: import risk as risk1
+59/2: risk = risk1.Risk()
+59/3:
+    master_train = risk.handle_data_nan(risk.master_train_file)
+    master_test = risk.handle_data_nan(risk.master_test_file)
+    
+    master_train = risk.handle_data_pre(master_train)
+    master_test = risk.handle_data_pre(master_test)
+    
+    master_test['target'] = 0
+    master_test['source'] = 'test'
+    master_train['source'] = 'train'
+    
+    master_train_test = pd.concat([master_train,master_test])
+    
+    master_train_test.UserInfo_2 = master_train_test.UserInfo_2.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_4 = master_train_test.UserInfo_4.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_7 = master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_8 = master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_9 = master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
+    
+    master_train_test = risk.handle_data_cat_encode(master_train_test)
+59/4:
+import  pandas as pd
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
+import xgboost as xgb
+from sklearn import cross_validation, metrics
+from sklearn.grid_search import GridSearchCV
+
+import matplotlib.pylab as plt
+
+from xgboost.core import DMatrix
+59/5:
+    master_train = risk.handle_data_nan(risk.master_train_file)
+    master_test = risk.handle_data_nan(risk.master_test_file)
+    
+    master_train = risk.handle_data_pre(master_train)
+    master_test = risk.handle_data_pre(master_test)
+    
+    master_test['target'] = 0
+    master_test['source'] = 'test'
+    master_train['source'] = 'train'
+    
+    master_train_test = pd.concat([master_train,master_test])
+    
+    master_train_test.UserInfo_2 = master_train_test.UserInfo_2.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_4 = master_train_test.UserInfo_4.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_7 = master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_8 = master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_9 = master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
+    
+    master_train_test = risk.handle_data_cat_encode(master_train_test)
+59/6: master_train.UserInfo_2.apply(lambda x : x.decode('gbk'))
+59/7: ui_2 = master_train.UserInfo_2.apply(lambda x : x.decode('gbk'))
+59/8: pd.value_counts(ui2)
+59/9: pd.value_counts(ui_2)
+59/10: ui_2_count = pd.value_counts(ui_2)
+59/11: ui_2_count
+59/12: ui_2_count.plot(kind='bar')
+59/13: plt.show()
+59/14: labelEncode = LabelEncoder()
+59/15: labelEncode.fit(ui_2_count)
+59/16: labelEncode.transform(ui_2_count)
+59/17: labelEncode.transform(ui_2)
+59/18: labelEncode.fit(ui_2)
+59/19: labelEncode.transform(ui_2)
+59/20: master_test['UserInfo_2_encode'] = labelEncode.transform(ui_2)
+59/21: ui_2.shape
+59/22: master_train['UserInfo_2_encode'] = labelEncode.transform(ui_2)
+59/23: master_train.UserInfo_2
+59/24: master_train['UserInfo_2_encode']
+59/25: pd.value_counts(master_train.UserInfo_2_encode)
+59/26: aa = pd.value_counts(master_train.UserInfo_2_encode)
+59/27: aa.describe()
+59/28: aa[aa>110].plot(kind='bar')
+59/29: plt.show()
+59/30: plt.save?
+59/31: plt.save('1.jpg')
+59/32: plt.save('1.jpg',aa[aa>110])
+59/33: plt.savefig?
+59/34: plt.savefig('1.jpg')
+59/35: aa[aa>110].plot(kind='bar')
+59/36: plt.savefig('1.jpg')
+59/37: labelEncode.inverse_transform([195])
+59/38: print labelEncode.inverse_transform([195])[0]
+59/39: master_train.apply(lambda x : type(x),axis =1)
+59/40: master_train.apply(lambda x : x.dtype,axis =1)
+59/41: master_train.apply(lambda x : x.dtype,axis =0)
+59/42: master_train.apply(lambda x : x.dtypes,axis =0)
+59/43: master_train.UserInfo_1
+59/44: master_train.UserInfo_1.dtype
+59/45: master_train.UserInfo_1.dtypes
+59/46: master_train.apply(lambda x : master_train[x].dtype,axis =0)
+59/47: master_train.apply(lambda x : master_train[master_train.columns[x]].dtype,axis =0)
+59/48: master_train.apply(lambda x : master_train[master_train.columns[x]].dtype,axis =1)
+59/49: master_train.columns.apply(lambda x : master_train[x].dtyes)
+59/50: master_train.columns[1:].apply(lambda x : master_train[x].dtyes)
+59/51: master_train.columns[2:].apply(lambda x : master_train[x].dtyes)
+59/52: master_train.columns
+59/53: master_train.columns.values.apply(lambda x : master_train[x].dtyes)
+59/54: master_train.columns.values
+59/55: master_train.UserInfo_1.name
+59/56: master_train.apply(lambda x : master_train[x.name].dtype,axis =1)
+59/57: master_train.apply(lambda x : master_train[x.name].dtype,axis =0)
+59/58: in
+59/59: in[37]
+59/60: %config TerminalInteractiveShell.cache_size = 100000
+59/61: master_train.apply(lambda x : master_train[x.name].dtype,axis =0)
+59/62: %config TerminalInteractiveShell.ast_node_interactivity = all
+59/63: %config TerminalInteractiveShell.ast_node_interactivity  all
+59/64: %config TerminalInteractiveShell.ast_node_interactivity = all
+59/65: %config TerminalInteractiveShell.ast_node_interactivity = 'all'
+59/66: master_train.apply(lambda x : master_train[x.name].dtype,axis =0)
+60/1: import risk as risk1
+60/2: risk = Risk()
+60/3: risk = risk1.Risk()
+60/4:
+import  pandas as pd
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
+import xgboost as xgb
+from sklearn import cross_validation, metrics
+from sklearn.grid_search import GridSearchCV
+
+import matplotlib.pylab as plt
+
+from xgboost.core import DMatrix
+60/5:
+    master_train = risk.handle_data_nan(risk.master_train_file)
+    master_test = risk.handle_data_nan(risk.master_test_file)
+    
+    master_train = risk.handle_data_pre(master_train)
+    master_test = risk.handle_data_pre(master_test)
+    
+    master_test['target'] = 0
+    master_test['source'] = 'test'
+    master_train['source'] = 'train'
+    
+    master_train_test = pd.concat([master_train,master_test])
+    
+    master_train_test.UserInfo_2 = master_train_test.UserInfo_2.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_4 = master_train_test.UserInfo_4.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_7 = master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_8 = master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_9 = master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
+    
+    master_train_test = risk.handle_data_cat_encode(master_train_test)
+60/6: import sklearn.preprocessing as preprocessing
+60/7: labelEncode = preprocessing.LabelEncoder()
+60/8: risk.fieldtype
+60/9: master_train.columns
+60/10: master_train.columns.values
+60/11: master_train.apply(lambda x : master_train[x.name].dtype,axis =0)
+60/12: aa= np.arange(24).reshape(2,3,4)
+60/13: aa
+60/14: aa= np.arange(24).reshape(2,3)
+60/15: aa= np.arange(24).reshape(3,8)
+60/16: aa
+60/17: aa.sum(axis=0)
+60/18: aa.sum(axis=1)
+60/19: master_train.apply(lambda x : master_train[x.name].dtype,axis =0)
+60/20: master_train.apply(lambda x : master_train[x.name].dtype,axis =1)
+60/21: master_train.apply(lambda x : x,axis =1)
+60/22: master_train.apply(lambda x : type(x),axis =1)
+60/23: master_train
+60/24: master_train.apply(lambda x : type(x),axis =0)
+60/25: master_train.apply(lambda x : type(x),axis =0)[0]
+60/26: master_train.apply(lambda x : type(x),axis =0)[0].size
+60/27: bb=master_train.apply(lambda x : type(x),axis =0)[0]
+60/28: bb
+60/29: bb[0]
+60/30: bb
+60/31: bb.as_matrix
+60/32: master_train.apply(lambda x : type(x),axis =0)[0]
+60/33: master_train.apply(lambda x : x,axis =0)[0]
+60/34: master_train.apply(lambda x : x,axis =0)
+60/35: master_train.apply(lambda x : x,axis =1)
+60/36: master_train.apply(lambda x : x.size,axis =1)
+60/37: master_train.apply(lambda x : x.size,axis =0)
+61/1: import risk as risk1
+61/2: risk = risk1.Risk()
+61/3:
+    master_train = risk.handle_data_nan(risk.master_train_file)
+    master_test = risk.handle_data_nan(risk.master_test_file)
+    
+    master_train = risk.handle_data_pre(master_train)
+    master_test = risk.handle_data_pre(master_test)
+    
+    master_test['target'] = 0
+    master_test['source'] = 'test'
+    master_train['source'] = 'train'
+    
+    master_train_test = pd.concat([master_train,master_test])
+    
+    master_train_test.UserInfo_2 = master_train_test.UserInfo_2.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_4 = master_train_test.UserInfo_4.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_7 = master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_8 = master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_9 = master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
+    
+    master_train_test = risk.handle_data_cat_encode(master_train_test)
+61/4:
+import  pandas as pd
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
+import xgboost as xgb
+from sklearn import cross_validation, metrics
+from sklearn.grid_search import GridSearchCV
+
+import matplotlib.pylab as plt
+
+from xgboost.core import DMatrix
+61/5:
+    master_train = risk.handle_data_nan(risk.master_train_file)
+    master_test = risk.handle_data_nan(risk.master_test_file)
+    
+    master_train = risk.handle_data_pre(master_train)
+    master_test = risk.handle_data_pre(master_test)
+    
+    master_test['target'] = 0
+    master_test['source'] = 'test'
+    master_train['source'] = 'train'
+    
+    master_train_test = pd.concat([master_train,master_test])
+    
+    master_train_test.UserInfo_2 = master_train_test.UserInfo_2.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_4 = master_train_test.UserInfo_4.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_7 = master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_8 = master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_9 = master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
+    
+    master_train_test = risk.handle_data_cat_encode(master_train_test)
+   1: %history -g -f /home/liuwei/workspace/risk/ipython.hist
+   2: %history -g -f /home/liuwei/workspace/risk/ipython_20170413_0900.hist
