@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import  pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
@@ -91,6 +92,7 @@ class Risk:
     
     def handle_data_cat_encode(self,master_train_test):
         
+        
         le = LabelEncoder()
         try:
             for x in master_train_test.columns:
@@ -160,13 +162,22 @@ if __name__ == '__main__':
     master_test['source'] = 'test'
     master_train['source'] = 'train'
     
-    master_train_test = pd.concat([master_train,master_test])
+    master_train_test= pd.concat([master_train,master_test],ignore_index=True)
     
-    master_train_test.UserInfo_2 = master_train_test.UserInfo_2.apply(lambda x:x.decode('gbk') )
-    master_train_test.UserInfo_4 = master_train_test.UserInfo_4.apply(lambda x:x.decode('gbk') )
-    master_train_test.UserInfo_7 = master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
-    master_train_test.UserInfo_8 = master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
-    master_train_test.UserInfo_9 = master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
+    master_train_test.UserInfo_24[38293] = 'unknow'   #特殊处理，仅此处的值无法进行decode（‘gbk’）编码
+    
+    #for x in [x for x in master_train_test.columns if   master_train_test[x].dtype == 'object' and  x.find('UserInfo_24')<0 ]:  #做了166行处理后，不用排除该列了
+    
+    #将object类型得列都进行decode操作，不在单选包含中文得列了
+    for x in [x for x in master_train_test.columns if   master_train_test[x].dtype == 'object' ]:               
+        master_train_test[x] =  master_train_test[x].apply(lambda x:x.decode('gbk'))
+    
+    
+#     master_train_test.UserInfo_2 = master_train_test.UserInfo_2.apply(lambda x:x.decode('gbk') )
+#     master_train_test.UserInfo_4 = master_train_test.UserInfo_4.apply(lambda x:x.decode('gbk') )
+#     master_train_test.UserInfo_7 = master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
+#     master_train_test.UserInfo_8 = master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
+#     master_train_test.UserInfo_9 = master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
     
     master_train_test = risk.handle_data_cat_encode(master_train_test)
     
