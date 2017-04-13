@@ -113,7 +113,7 @@ class Risk:
         xgb1 = xgb.XGBClassifier( learning_rate =0.1, n_estimators=1000, max_depth=5, min_child_weight=1, gamma=0, subsample=0.8, 
                                   colsample_bytree=0.8, objective= 'binary:logistic', nthread=32, scale_pos_weight=1, seed=27)
             
-        predictors = [x for x in master_train.columns if x not in ['target','source'] ]
+        predictors = [x for x in master_train.columns if x not in ['Idx','target','source'] ]
         target = 'target'
         self.modelfit(xgb1,master_train_test,target,predictors)
         
@@ -170,7 +170,7 @@ if __name__ == '__main__':
     
     master_train_test = risk.handle_data_cat_encode(master_train_test)
     
-    master_train_test = master_train_test.drop(['Idx'],axis=1)
+    #master_train_test = master_train_test.drop(['Idx'],axis=1)
 
     #master_train = risk.handle_data_pre(master_train)
     risk.xgb_train(master_train_test)
