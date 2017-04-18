@@ -34,24 +34,22 @@ class Risk:
         self.Userupdate_test=pd.read_csv(self.Userupdate_test_file,sep=',')
         
         self.fieldtype=pd.read_csv(r'/data/risk/field_type.csv',sep=',')
-
+        
+        self.category_fields = self.fieldtype[self.fieldtype.field_type == 'Categorical'].field_name.values
+        self.numeric_fields = self.fieldtype[self.fieldtype.field_type == 'Numerical'].field_name.values
+        self.chinese_content_fields = ['UserInfo_2','UserInfo_4','UserInfo_7','UserInfo_8','UserInfo_19','UserInfo_20']
         
         
     def handle_nan_field(self,required_handle_nan_df):
         
-        nan_field_count_series = required_handle_nan_df.isnull().sum().sort_values(ascending=False)
-        nan_field_count_series.plot(kind='bar')
-        plt.show()
+        nan_field_count_series = required_handle_nan_df.isnull().sum().sort_values(ascending=False)/float(len(required_handle_nan_df)) 
+        required_handle_nan_df.drop(nan_field_count_series[nan_field_count_series>0.9].index.values,inplace=True,axis=1)
         
-        required_handle_nan_df.drop(nan_field_count_series[nan_field_count_series>0.9].index.values,inplace=True)
         
-        category_fields = self.fieldtype[self.fieldtype.field_type == 'Categorical'].field_name.values
-        numeric_fields = self.fieldtype[self.fieldtype.field_type == 'Numerical'].field_name.values
-        chinese_content_fields = ['UserInfo_2','UserInfo_4','UserInfo_7','UserInfo_8','UserInfo_19','UserInfo_20']
         
         for x in required_handle_nan_df.columns.values:
-            if x in category_fields:
-                if x in chinese_content_fields:
+            if x in self.category_fields:
+                if x in self.chinese_content_fields:
                     required_handle_nan_df[x].loc[pd.isnull(required_handle_nan_df[x])] = (u'不详').encode('gbk')
                 else:
                     if required_handle_nan_df[x].dtypes == np.int64:
@@ -60,14 +58,15 @@ class Risk:
                         required_handle_nan_df[x].loc[ pd.isnull(required_handle_nan_df[x]) ] = 99999.0 
                     elif required_handle_nan_df[x].dtypes == np.object:
                         required_handle_nan_df[x].loc[ pd.isnull(required_handle_nan_df[x]) ] = 'unknow'
-            elif  x in numeric_fields:
+            elif  x in self.numeric_fields:
                 if required_handle_nan_df[x].dtypes == np.int64:
                         required_handle_nan_df[x].loc[ pd.isnull(required_handle_nan_df[x]) ] = required_handle_nan_df[x].mean()
                 elif required_handle_nan_df[x].dtypes == np.float64:
                     required_handle_nan_df[x].loc[ pd.isnull(required_handle_nan_df[x]) ] = required_handle_nan_df[x].mean()
         
-        
-        
+    def handle_little_variance(self,required_handle_variance_df):
+        variance_series = required_handle_variance_df[[ x for x in  self.numeric_fields if x in required_handle_variance_df.columns]].std()
+        required_handle_variance_df.drop(variance_series[variance_series < 0.1].index.values,inplace=True,axis=1)
 
     def handle_data_nan(self,data_file_path):
         
@@ -201,44 +200,49 @@ class Risk:
             plt.ylabel('Feature Importance Score')    
         except Exception,e:
             print e
+
 if __name__ == '__main__':
     risk = Risk()
-    master_train = risk.handle_data_nan(risk.master_train_file)
-    master_test = risk.handle_data_nan(risk.master_test_file)
-    
-    master_train = risk.handle_data_pre(master_train)
-    risk.handle_category_count(master_train)
-    
-    master_test = risk.handle_data_pre(master_test)
+#     master_train = risk.handle_data_nan(risk.master_train_file)
+#     master_test = risk.handle_data_nan(risk.master_test_file)
+#     
+#     master_train = risk.handle_data_pre(master_train)
+#     risk.handle_category_count(master_train)
+#     
+#     master_test = risk.handle_data_pre(master_test)
    
+    master_train = pd.read_csv(risk.master_train_file)
+    risk.handle_nan_field(master_train)
+    risk.handle_little_variance(master_train)
+    print master_train.shape
     
-    master_test['target'] = 0
-    master_test['source'] = 'test'
-    master_train['source'] = 'train'
-    
-    master_train_test= pd.concat([master_train,master_test],ignore_index=True)
-    
-    master_train_test.UserInfo_24[38293] = 'unknow'   #特殊处理，仅此处的值无法进行decode（‘gbk’）编码
-    
-    #for x in [x for x in master_train_test.columns if   master_train_test[x].dtype == 'object' and  x.find('UserInfo_24')<0 ]:  #做了166行处理后，不用排除该列了
-    
-    #将object类型得列都进行decode操作，不在单选包含中文得列了
-    for x in [x for x in master_train_test.columns if   master_train_test[x].dtype == 'object' ]:               
-        master_train_test[x] =  master_train_test[x].apply(lambda x:x.decode('gbk'))
-    
-    
-#     master_train_test.UserInfo_2 = master_train_test.UserInfo_2.apply(lambda x:x.decode('gbk') )
-#     master_train_test.UserInfo_4 = master_train_test.UserInfo_4.apply(lambda x:x.decode('gbk') )
-#     master_train_test.UserInfo_7 = master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
-#     master_train_test.UserInfo_8 = master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
-#     master_train_test.UserInfo_9 = master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
-    
-    master_train_test = risk.handle_data_cat_encode(master_train_test)
-    
-    #master_train_test = master_train_test.drop(['Idx'],axis=1)
-
-    #master_train = risk.handle_data_pre(master_train)
-    risk.xgb_train(master_train_test)
+#     master_test['target'] = 0
+#     master_test['source'] = 'test'
+#     master_train['source'] = 'train'
+#     
+#     master_train_test= pd.concat([master_train,master_test],ignore_index=True)
+#     
+#     master_train_test.UserInfo_24[38293] = 'unknow'   #特殊处理，仅此处的值无法进行decode（‘gbk’）编码
+#     
+#     #for x in [x for x in master_train_test.columns if   master_train_test[x].dtype == 'object' and  x.find('UserInfo_24')<0 ]:  #做了166行处理后，不用排除该列了
+#     
+#     #将object类型得列都进行decode操作，不在单选包含中文得列了
+#     for x in [x for x in master_train_test.columns if   master_train_test[x].dtype == 'object' ]:               
+#         master_train_test[x] =  master_train_test[x].apply(lambda x:x.decode('gbk'))
+#     
+#     
+# #     master_train_test.UserInfo_2 = master_train_test.UserInfo_2.apply(lambda x:x.decode('gbk') )
+# #     master_train_test.UserInfo_4 = master_train_test.UserInfo_4.apply(lambda x:x.decode('gbk') )
+# #     master_train_test.UserInfo_7 = master_train_test.UserInfo_7.apply(lambda x:x.decode('gbk') )
+# #     master_train_test.UserInfo_8 = master_train_test.UserInfo_8.apply(lambda x:x.decode('gbk') )
+# #     master_train_test.UserInfo_9 = master_train_test.UserInfo_9.apply(lambda x:x.decode('gbk') )
+#     
+#     master_train_test = risk.handle_data_cat_encode(master_train_test)
+#     
+#     #master_train_test = master_train_test.drop(['Idx'],axis=1)
+# 
+#     #master_train = risk.handle_data_pre(master_train)
+#     risk.xgb_train(master_train_test)
     
     
     
