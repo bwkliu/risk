@@ -37,6 +37,35 @@ class Risk:
 
         
         
+    def handle_nan_field(self,required_handle_nan_df):
+        
+        nan_field_count_series = required_handle_nan_df.isnull().sum().sort_values(ascending=False)
+        nan_field_count_series.plot(kind='bar')
+        plt.show()
+        
+        required_handle_nan_df.drop(nan_field_count_series[nan_field_count_series>0.9].index.values,inplace=True)
+        
+        category_fields = self.fieldtype[self.fieldtype.field_type == 'Categorical'].field_name.values
+        numeric_fields = self.fieldtype[self.fieldtype.field_type == 'Numerical'].field_name.values
+        chinese_content_fields = ['UserInfo_2','UserInfo_4','UserInfo_7','UserInfo_8','UserInfo_19','UserInfo_20']
+        
+        for x in required_handle_nan_df.columns.values:
+            if x in category_fields:
+                if x in chinese_content_fields:
+                    required_handle_nan_df[x].loc[pd.isnull(required_handle_nan_df[x])] = (u'不详').encode('gbk')
+                else:
+                    if required_handle_nan_df[x].dtypes == np.int64:
+                        required_handle_nan_df[x].loc[ pd.isnull(required_handle_nan_df[x]) ] = 99999
+                    elif required_handle_nan_df[x].dtypes == np.float64:
+                        required_handle_nan_df[x].loc[ pd.isnull(required_handle_nan_df[x]) ] = 99999.0 
+                    elif required_handle_nan_df[x].dtypes == np.object:
+                        required_handle_nan_df[x].loc[ pd.isnull(required_handle_nan_df[x]) ] = 'unknow'
+            elif  x in numeric_fields:
+                if required_handle_nan_df[x].dtypes == np.int64:
+                        required_handle_nan_df[x].loc[ pd.isnull(required_handle_nan_df[x]) ] = required_handle_nan_df[x].mean()
+                elif required_handle_nan_df[x].dtypes == np.float64:
+                    required_handle_nan_df[x].loc[ pd.isnull(required_handle_nan_df[x]) ] = required_handle_nan_df[x].mean()
+        
         
         
 
@@ -108,6 +137,28 @@ class Risk:
             print x
         return master_train_test
     
+    #calc target sum for group by category field
+    def handle_category_count(self,master_train_test):
+        le = LabelEncoder()
+        cat_cols = [x for x in risk.fieldtype[ risk.fieldtype.field_type == 'Categorical'  ].field_name  if x in master_train.columns ]
+        for cat in cat_cols:
+            if master_train[cat].dtype == 'object':
+                master_train[cat] = le.fit_transform( list( map( lambda x:x.decode('gbk'),master_train[cat].values) ) )
+            
+            
+            
+            master_train['key_1'] =  master_train[cat].astype('category').values.codes
+            grp = master_train.groupby(['key_1'])
+              
+            
+            target0 = master_train[cat][master_train.target == 0].value_counts()
+            target1 = master_train[cat][master_train.target == 1].value_counts()
+            df = pd.DataFrame({cat+'_wy':target1,cat+'_w_wy':target0})
+            df.fillna(0,inplace=True)
+            master_train[cat+'_exp'] = df[cat+'_wy'].astype('float')/(df[cat+'_wy'].astype('float') + df[cat+'_w_wy'].astype('float'))
+    
+    
+    
     def xgb_train(self,master_train_test):
         #X_train = master_train[ [x for x in master_train.columns if x!='target' ]   ] 
         #Y_train = master_train[ ['target' ]   ]
@@ -156,7 +207,10 @@ if __name__ == '__main__':
     master_test = risk.handle_data_nan(risk.master_test_file)
     
     master_train = risk.handle_data_pre(master_train)
+    risk.handle_category_count(master_train)
+    
     master_test = risk.handle_data_pre(master_test)
+   
     
     master_test['target'] = 0
     master_test['source'] = 'test'
