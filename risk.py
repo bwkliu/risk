@@ -80,9 +80,35 @@ class Risk:
         
         required_handle_ListingInfo_df.drop(['ListingInfo'],inplace=True,axis=1)
         
-    #def handle_category_field_onhot(self,required_handle_category_field_onhot_df):
+    def handle_category_field_count_rate(self,required_handle_category_count_rate_df):
+        cat_cols = [x for x in self.category_fields if x in required_handle_category_count_rate_df.columns ] + ['year','month','day']
+        target = 'target'
+        cred_k = 10
+        mean_init = required_handle_category_count_rate_df[target].mean()
+        for x in cat_cols:
+            grp = required_handle_category_count_rate_df[[x,target]].groupby(required_handle_category_count_rate_df[x].astype('category').values.codes)
+            sum1 = grp[target].aggregate(np.sum)
+            cnt1 = grp[target].aggregate(np.size)
+            vn_sum = 'sum_' + x
+            vn_cnt = 'cnt_' + x
+            _sum = sum1[required_handle_category_count_rate_df[x].astype('category').values.codes].values
+            _cnt = cnt1[required_handle_category_count_rate_df[x].astype('category').values.codes].values
+            _cnt[np.isnan(_sum)] = 0    
+            _sum[np.isnan(_sum)] = 0
+            
+            required_handle_category_count_rate_df['exp'+x] = (_sum + cred_k * mean_init)/(_cnt + cred_k)
+            required_handle_category_count_rate_df.drop(x,inplace=True,axis=1)
+           
+        
+        
+        
         
 #************************************************************************************************************        
+
+
+        
+    
+
     def handle_data_nan(self,data_file_path):
         
         data_df = pd.read_csv(data_file_path,sep=',')
@@ -173,7 +199,7 @@ class Risk:
     
 #********************************************************************************************************************    
     
-    def xgb_train(self,master_train_test):
+    def xgb_train(self,master_train):
         #X_train = master_train[ [x for x in master_train.columns if x!='target' ]   ] 
         #Y_train = master_train[ ['target' ]   ]
         
@@ -182,14 +208,14 @@ class Risk:
             
         predictors = [x for x in master_train.columns if x not in ['Idx','target','source'] ]
         target = 'target'
-        self.modelfit(xgb1,master_train_test,target,predictors)
+        self.modelfit(xgb1,master_train,target,predictors)
         
     
     def modelfit(self,alg, dtrain, target ,predictors,useTrainCV=True, cv_folds=5, early_stopping_rounds=50):
         try:
             
-            train_set  = dtrain[dtrain.source == 'train']
-            test_set = dtrain[dtrain.source == 'test']
+            train_set  = dtrain
+            test_set = dtrain
             
             if useTrainCV:
                 xgb_param = alg.get_xgb_params()
@@ -230,6 +256,12 @@ if __name__ == '__main__':
     risk.handle_nan_field(master_train)
     risk.handle_little_variance(master_train)
     risk.handle_local_field(master_train)
+    risk.handle_ListingInfo_field(master_train)
+    risk.handle_category_field_count_rate(master_train)
+    master_train.drop(['Idx'],inplace=True,axis=1)
+    
+    risk.xgb_train(master_train)
+    
     print master_train.shape
     
 #     master_test['target'] = 0
