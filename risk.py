@@ -68,6 +68,21 @@ class Risk:
         variance_series = required_handle_variance_df[[ x for x in  self.numeric_fields if x in required_handle_variance_df.columns]].std()
         required_handle_variance_df.drop(variance_series[variance_series < 0.1].index.values,inplace=True,axis=1)
 
+    def handle_local_field(self,required_handle_local_df):
+        required_handle_local_df[self.chinese_content_fields] = required_handle_local_df[self.chinese_content_fields].apply(lambda x:x.apply(lambda y : y.decode('gbk'))) 
+        required_handle_local_df[self.chinese_content_fields] = required_handle_local_df[self.chinese_content_fields].apply(lambda x:x.apply(lambda y:y.replace(u'市','').replace(u'省','')) )
+
+    def handle_ListingInfo_field(self,required_handle_ListingInfo_df):
+        list_info_time = pd.to_datetime(required_handle_ListingInfo_df.ListingInfo)
+        required_handle_ListingInfo_df['year'] = list_info_time.apply(lambda x : x.year)
+        required_handle_ListingInfo_df['month'] = list_info_time.apply(lambda x : x.month)
+        required_handle_ListingInfo_df['day'] = list_info_time.apply(lambda x : x.day)
+        
+        required_handle_ListingInfo_df.drop(['ListingInfo'],inplace=True,axis=1)
+        
+    #def handle_category_field_onhot(self,required_handle_category_field_onhot_df):
+        
+#************************************************************************************************************        
     def handle_data_nan(self,data_file_path):
         
         data_df = pd.read_csv(data_file_path,sep=',')
@@ -101,7 +116,7 @@ class Risk:
             print x
         #data_df.to_csv('/data/risk/master_train_test_nan.csv')          
         return data_df
-   
+        
     def handle_data_pre(self,master_train_test):
         le = LabelEncoder()
         #x=None
@@ -156,7 +171,7 @@ class Risk:
             df.fillna(0,inplace=True)
             master_train[cat+'_exp'] = df[cat+'_wy'].astype('float')/(df[cat+'_wy'].astype('float') + df[cat+'_w_wy'].astype('float'))
     
-    
+#********************************************************************************************************************    
     
     def xgb_train(self,master_train_test):
         #X_train = master_train[ [x for x in master_train.columns if x!='target' ]   ] 
@@ -214,6 +229,7 @@ if __name__ == '__main__':
     master_train = pd.read_csv(risk.master_train_file)
     risk.handle_nan_field(master_train)
     risk.handle_little_variance(master_train)
+    risk.handle_local_field(master_train)
     print master_train.shape
     
 #     master_test['target'] = 0
