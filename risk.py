@@ -37,7 +37,7 @@ class Risk:
         
         self.category_fields = self.fieldtype[self.fieldtype.field_type == 'Categorical'].field_name.values
         self.numeric_fields = self.fieldtype[self.fieldtype.field_type == 'Numerical'].field_name.values
-        self.chinese_content_fields = ['UserInfo_2','UserInfo_4','UserInfo_7','UserInfo_8','UserInfo_19','UserInfo_20']
+        self.chinese_content_fields = ['UserInfo_2','UserInfo_4','UserInfo_7','UserInfo_8','UserInfo_19','UserInfo_20','UserInfo_9']
         
         
     def handle_nan_field(self,required_handle_nan_df):
@@ -79,7 +79,9 @@ class Risk:
         required_handle_ListingInfo_df['day'] = list_info_time.apply(lambda x : x.day)
         
         required_handle_ListingInfo_df.drop(['ListingInfo'],inplace=True,axis=1)
-        
+    
+    
+    #because xgboost have to use numerical varaible    
     def handle_category_field_count_rate(self,required_handle_category_count_rate_df):
         cat_cols = [x for x in self.category_fields if x in required_handle_category_count_rate_df.columns ] + ['year','month','day']
         target = 'target'
@@ -99,10 +101,18 @@ class Risk:
             required_handle_category_count_rate_df['exp'+x] = (_sum + cred_k * mean_init)/(_cnt + cred_k)
             required_handle_category_count_rate_df.drop(x,inplace=True,axis=1)
            
+    def handle_category_onehot_rate(self,required_handle_category_onehot_df):
+        cat_cols = [x for x in self.category_fields if x in required_handle_category_onehot_df.columns ] + ['year','month','day']
+        for x in cat_cols:
+            pd.get_dummies(required_handle_category_onehot_df[x])
+            required_handle_category_onehot_df.drop(x,inplace=True,axis=1)    
         
         
-        
-        
+    def handle_numerical_scale(self,required_handle_numerical_scale_df):
+        num_cols = [x for x in self.numeric_fields if x in required_handle_numerical_scale_df.columns ]
+        for x in num_cols:
+            
+            required_handle_numerical_scale_df.drop(x,inplace=True,axis=1)    
 #************************************************************************************************************        
 
 
