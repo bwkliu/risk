@@ -222,9 +222,9 @@ class Risk:
  
 #********************************************************************************************************************    
     def down_sampling(self,master_train_test):
-      neg_fileter = np.logical_and(master_train_test.source=='train' ,master_train_test.target == 0)
+      neg_filter = np.logical_and(master_train_test.source=='train' ,master_train_test.target == 0)
       #np.random.uniform(0,1,neg_sample.shape[0]) < 0.1
-      neg_sample = master_train_test[neg_fileter]
+      neg_sample = master_train_test[neg_filter]
       new_train_set = neg_sample[np.random.uniform(0,1,neg_sample.shape[0]) <= 0.1]
       return new_train_set
     
@@ -232,6 +232,15 @@ class Risk:
         new_master_train_test = pd.concat([new_train_neg,train_pos],ignore_index=True)
         return new_master_train_test
     
+    def up_sampling(self,master_train_test):
+      pos_filter = np.logical_and(master_train_test.source=='train' ,master_train_test.target == 1)
+      neg_filter = np.logical_and(master_train_test.source=='train' ,master_train_test.target == 0)
+      pos_sample = master_train_test[pos_filter]
+      for x in range[1,10]:
+        pos_sample = pd.concat([pos_sample,master_train_test[pos_filter]],ignore_index=True)
+        
+      new_train_set = pd.concat([master_train_test[neg_filter],pos_sample],ignore_index=True)
+      return new_train_set
     
     def xgb_train(self,train_set):
         #X_train = master_train[ [x for x in master_train.columns if x!='target' ]   ] 
@@ -246,8 +255,8 @@ class Risk:
         #self.modelfit(xgb1,master_train_test,target,predictors)
      
     def gridsearchcv_train(self,alg,param_grid,train_predictor_set,train_target_set,cv,n_jobs):
-        param_grid['verbose'] = 5  
-        gsearch = GridSearchCV(estimator=alg,param_grid = param_grid,scoring='roc_auc',n_jobs=n_jobs,iid=False, cv=cv)
+        param_grid = {'max_depth':range(3,10,2),'min_child_weight':range(1,6,2)}
+        gsearch = GridSearchCV(estimator=alg,param_grid = param_grid,scoring='roc_auc',n_jobs=24,iid=False, cv=10,verbose=1)
         gsearch.fit(train_predictor_set,train_target_set)
         print gsearch.grid_scores_, gsearch.best_params_,     gsearch.best_score_
         
@@ -261,6 +270,8 @@ class Risk:
             
             if useTrainCV:
                 xgb_param = alg.get_xgb_params()
+                xgb_param['silent']=0
+                xgb_param['nthread']=24
                 xgtrain = xgb.DMatrix(train_set[predictors].values, label=train_set[target].values)
                 cvresult = xgb.cv(xgb_param, xgtrain, num_boost_round=alg.get_params()['n_estimators'], nfold=cv_folds,
                     metrics='auc', early_stopping_rounds=early_stopping_rounds)
@@ -286,13 +297,7 @@ class Risk:
 
 if __name__ == '__main__':
     risk = Risk()
-#     master_train = risk.handle_data_nan(risk.master_train_file)
-#     master_test = risk.handle_data_nan(risk.master_test_file)
-#     
-#     master_train = risk.handle_data_pre(master_train)
-#     risk.handle_category_count(master_train)
-#     
-#     master_test = risk.handle_data_pre(master_test)
+
    
     master_train = pd.read_csv(risk.master_train_file)
     master_test = pd.read_csv(risk.master_test_file)
@@ -300,15 +305,14 @@ if __name__ == '__main__':
     master_train['source'] = 'train'
     master_test['source'] = 'test'
     master_train_test = pd.concat([master_train,master_test],ignore_index=True)
-    #risk.handle_nan_field(master_train)
-    #risk.handle_little_variance(master_train)
-    #risk.handle_local_field(master_train)
-    #risk.handle_ListingInfo_field(master_train)
+  
     risk.handle_first(master_train_test)
-    
     risk.handle_category_field_count_rate(master_train_test)
     
-    #master_train.drop(['Idx'],inplace=True,axis=1)
+    new_train_set = risk.down_sampling(master_train_test)
+    new_master_train_test = risk.new_train_test(new_train_set,master_train_test[master_train_test.target == 1])
+    model,new_X,new_Y = risk.xgb_train(new_master_train_test)
+    
     
     risk.xgb_train(master_train_test)
     
