@@ -236,7 +236,7 @@ class Risk:
       pos_filter = np.logical_and(master_train_test.source=='train' ,master_train_test.target == 1)
       neg_filter = np.logical_and(master_train_test.source=='train' ,master_train_test.target == 0)
       pos_sample = master_train_test[pos_filter]
-      for x in range[1,10]:
+      for x in range(1,10):
         pos_sample = pd.concat([pos_sample,master_train_test[pos_filter]],ignore_index=True)
         
       new_train_set = pd.concat([master_train_test[neg_filter],pos_sample],ignore_index=True)
