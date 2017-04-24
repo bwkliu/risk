@@ -12,8 +12,9 @@ from xgboost.core import DMatrix
 
 class Risk:
     def __init__(self):
-        self.train_filePath='/data/risk/PPD-First-Round-Data-Update/Training_Set/'
-        self.test_filePath='/data/risk/PPD-First-Round-Data-Update/Test_Set/'
+        self.data_home = r'/data/risk/'
+        self.train_filePath=self.data_home + 'PPD-First-Round-Data-Update/Training_Set/'
+        self.test_filePath=self.data_home + 'PPD-First-Round-Data-Update/Test_Set/'
         
         self.master_train_file=self.train_filePath+'PPD_Training_Master_GBK_3_1_Training_Set.csv'
         self.LogInfo_train_file=self.train_filePath+'PPD_LogInfo_3_1_Training_Set.csv'
@@ -33,7 +34,7 @@ class Risk:
         self.LogInfo_test=pd.read_csv(self.LogInfo_test_file,sep=',')           
         self.Userupdate_test=pd.read_csv(self.Userupdate_test_file,sep=',')
         
-        self.fieldtype=pd.read_csv(r'/data/risk/field_type.csv',sep=',')
+        self.fieldtype=pd.read_csv(self.data_home + 'field_type.csv',sep=',')
         
         self.category_fields = self.fieldtype[self.fieldtype.field_type == 'Categorical'].field_name.values
         self.numeric_fields = self.fieldtype[self.fieldtype.field_type == 'Numerical'].field_name.values
@@ -64,13 +65,13 @@ class Risk:
                 elif required_handle_nan_df[x].dtypes == np.float64:
                     required_handle_nan_df[x].loc[ pd.isnull(required_handle_nan_df[x]) ] = required_handle_nan_df[x].mean()
         
-    def handle_little_variance(self,required_handle_variance_df):
-        variance_series = required_handle_variance_df[[ x for x in  self.numeric_fields if x in required_handle_variance_df.columns]].std()
-        required_handle_variance_df.drop(variance_series[variance_series < 0.1].index.values,inplace=True,axis=1)
+    def handle_little_variance(self,df):
+        variance_series = df[[ x for x in  self.numeric_fields if x in df.columns]].std()
+        df.drop(variance_series[variance_series < 0.1].index.values,inplace=True,axis=1)
 
     def handle_local_field(self,required_handle_local_df):
-        required_handle_local_df[self.chinese_content_fields] = required_handle_local_df[self.chinese_content_fields].apply(lambda x:x.apply(lambda y : y.decode('gbk'))) 
-        required_handle_local_df[self.chinese_content_fields] = required_handle_local_df[self.chinese_content_fields].apply(lambda x:x.apply(lambda y:y.replace(u'市','').replace(u'省','')) )
+        required_handle_local_df[self.chinese_content_fields] = required_handle_local_df[self.chinese_content_fields].apply(lambda x:x.apply(lambda y : y.strip().decode('gbk'))) 
+        required_handle_local_df[self.chinese_content_fields] = required_handle_local_df[self.chinese_content_fields].apply(lambda x:x.apply(lambda y:y.strip().replace(u'市','').replace(u'省','')) )
 
     def handle_ListingInfo_field(self,required_handle_ListingInfo_df):
         list_info_time = pd.to_datetime(required_handle_ListingInfo_df.ListingInfo)
@@ -82,24 +83,28 @@ class Risk:
     
     
     #because xgboost have to use numerical varaible    
-    def handle_category_field_count_rate(self,required_handle_category_count_rate_df):
-        cat_cols = [x for x in self.category_fields if x in required_handle_category_count_rate_df.columns ] + ['year','month','day']
+    def handle_category_field_count_rate(self,df):
+        cat_cols = [x for x in self.category_fields if x in df.columns ] + ['year','month','day']
         target = 'target'
         cred_k = 10
-        mean_init = required_handle_category_count_rate_df[target].mean()
+      
+        df_train = df[df.source=='train']
+        
+        mean_init = df_train[target].mean()
         for x in cat_cols:
-            grp = required_handle_category_count_rate_df[[x,target]].groupby(required_handle_category_count_rate_df[x].astype('category').values.codes)
+            grp = df_train[[x,target]].groupby(df_train[x].astype('category').values.codes)
             sum1 = grp[target].aggregate(np.sum)
             cnt1 = grp[target].aggregate(np.size)
             vn_sum = 'sum_' + x
             vn_cnt = 'cnt_' + x
-            _sum = sum1[required_handle_category_count_rate_df[x].astype('category').values.codes].values
-            _cnt = cnt1[required_handle_category_count_rate_df[x].astype('category').values.codes].values
+            _sum = sum1[df[x].astype('category').values.codes].values
+            _cnt = cnt1[df[x].astype('category').values.codes].values
             _cnt[np.isnan(_sum)] = 0    
             _sum[np.isnan(_sum)] = 0
             
-            required_handle_category_count_rate_df['exp'+x] = (_sum + cred_k * mean_init)/(_cnt + cred_k)
-            required_handle_category_count_rate_df.drop(x,inplace=True,axis=1)
+            #required_handle_category_count_rate_df['exp'+x] = (_sum + cred_k * mean_init)/(_cnt + cred_k)
+            df[x] = (_sum + cred_k * mean_init)/(_cnt + cred_k)
+            df.drop(x,inplace=True,axis=1)
            
     def handle_category_onehot_rate(self,required_handle_category_onehot_df):
         cat_cols = [x for x in self.category_fields if x in required_handle_category_onehot_df.columns ] + ['year','month','day']
@@ -111,7 +116,7 @@ class Risk:
     def handle_numerical_scale(self,required_handle_numerical_scale_df):
         num_cols = [x for x in self.numeric_fields if x in required_handle_numerical_scale_df.columns ]
         for x in num_cols:
-            
+           
             required_handle_numerical_scale_df.drop(x,inplace=True,axis=1)    
 #************************************************************************************************************        
 
@@ -206,26 +211,53 @@ class Risk:
             df = pd.DataFrame({cat+'_wy':target1,cat+'_w_wy':target0})
             df.fillna(0,inplace=True)
             master_train[cat+'_exp'] = df[cat+'_wy'].astype('float')/(df[cat+'_wy'].astype('float') + df[cat+'_w_wy'].astype('float'))
-    
+   
+
+    def  handle_first(self,require_df):
+        self.handle_nan_field(require_df)
+        self.handle_little_variance(require_df)
+        self.handle_local_field(require_df)
+        self.handle_ListingInfo_field(require_df)
+
+ 
 #********************************************************************************************************************    
+    def down_sampling(self,master_train_test):
+      neg_fileter = np.logical_and(master_train_test.source=='train' ,master_train_test.target == 0)
+      #np.random.uniform(0,1,neg_sample.shape[0]) < 0.1
+      neg_sample = master_train_test[neg_fileter]
+      new_train_set = neg_sample[np.random.uniform(0,1,neg_sample.shape[0]) <= 0.1]
+      return new_train_set
     
-    def xgb_train(self,master_train):
+    def new_train_test(self,new_train_neg,train_pos):
+        new_master_train_test = pd.concat([new_train_neg,train_pos],ignore_index=True)
+        return new_master_train_test
+    
+    
+    def xgb_train(self,train_set):
         #X_train = master_train[ [x for x in master_train.columns if x!='target' ]   ] 
         #Y_train = master_train[ ['target' ]   ]
         
         xgb1 = xgb.XGBClassifier( learning_rate =0.1, n_estimators=1000, max_depth=5, min_child_weight=1, gamma=0, subsample=0.8, 
                                   colsample_bytree=0.8, objective= 'binary:logistic', nthread=32, scale_pos_weight=1, seed=27)
             
-        predictors = [x for x in master_train.columns if x not in ['Idx','target','source'] ]
+        predictors = [x for x in train_set.columns if x not in ['Idx','target','source'] ]
         target = 'target'
-        self.modelfit(xgb1,master_train,target,predictors)
+        return xgb1,train_set[predictors],train_set[target]
+        #self.modelfit(xgb1,master_train_test,target,predictors)
+     
+    def gridsearchcv_train(self,alg,param_grid,train_predictor_set,train_target_set,cv,n_jobs):
+        param_grid['verbose'] = 5  
+        gsearch = GridSearchCV(estimator=alg,param_grid = param_grid,scoring='roc_auc',n_jobs=n_jobs,iid=False, cv=cv)
+        gsearch.fit(train_predictor_set,train_target_set)
+        print gsearch.grid_scores_, gsearch.best_params_,     gsearch.best_score_
+        
+      
         
     
     def modelfit(self,alg, dtrain, target ,predictors,useTrainCV=True, cv_folds=5, early_stopping_rounds=50):
         try:
-            
-            train_set  = dtrain
-            test_set = dtrain
+            train_set  = dtrain[dtrain.source == 'train']
+            test_set = dtrain[dtrain.source == 'test']
             
             if useTrainCV:
                 xgb_param = alg.get_xgb_params()
@@ -239,7 +271,7 @@ class Risk:
             
             #Predict training set:
             dtrain_predictions = alg.predict(test_set[predictors])
-            dtrain_predprob = alg.predict_proba(test_set[predictors])[:,1]
+            dtrain_predprob = alg.predict_proba(test_set[predictors])
         
             #Print model report:
             print "\nModel Report"
@@ -263,16 +295,24 @@ if __name__ == '__main__':
 #     master_test = risk.handle_data_pre(master_test)
    
     master_train = pd.read_csv(risk.master_train_file)
-    risk.handle_nan_field(master_train)
-    risk.handle_little_variance(master_train)
-    risk.handle_local_field(master_train)
-    risk.handle_ListingInfo_field(master_train)
-    risk.handle_category_field_count_rate(master_train)
-    master_train.drop(['Idx'],inplace=True,axis=1)
+    master_test = pd.read_csv(risk.master_test_file)
+    master_test['target'] = 0
+    master_train['source'] = 'train'
+    master_test['source'] = 'test'
+    master_train_test = pd.concat([master_train,master_test],ignore_index=True)
+    #risk.handle_nan_field(master_train)
+    #risk.handle_little_variance(master_train)
+    #risk.handle_local_field(master_train)
+    #risk.handle_ListingInfo_field(master_train)
+    risk.handle_first(master_train_test)
     
-    risk.xgb_train(master_train)
+    risk.handle_category_field_count_rate(master_train_test)
     
-    print master_train.shape
+    #master_train.drop(['Idx'],inplace=True,axis=1)
+    
+    risk.xgb_train(master_train_test)
+    
+    print master_train_test.shape
     
 #     master_test['target'] = 0
 #     master_test['source'] = 'test'
